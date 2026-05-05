@@ -2,7 +2,7 @@
 
 # GRAP4Q
 
-### Guided Retrieval and Patching for Quantum Code
+### Guardrail Retrieval and Patching for Quantum Code
 
 **An LLM-based framework for guardrail-constrained patching of quantum Python programs**
 
