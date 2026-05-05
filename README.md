@@ -1,7 +1,7 @@
 <div align="center">
 
 # ⚛️ GRAP4Q
-[🌐 Try it live](https://grapq.idealunina.com/)]
+🌐 Try it live](https://grapq.idealunina.com/)
 
 ### *Guided Retrieval and Patching for Quantum Code*
 
