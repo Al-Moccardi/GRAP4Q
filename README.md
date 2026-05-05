@@ -184,49 +184,6 @@ The accompanying manuscript reports:
 **Hardware used:** Intel Ultra 9 185H · RTX 4070 · Ollama 0.11.10
 **Backbone:** `qwen2.5-coder:14b-instruct` · `temperature = 0.0` · `seed = 7`
 
-<br/>
-
-## ⚠️ Honest limitations
-
-We hold ourselves to the same scrutiny we apply to baselines:
-
-- **Construct validity.** Lines-F1 measures line-overlap with the gold patch; it does not, by itself, certify functional correctness. The Bugs4Q benchmark lacks runnable test suites for most cases, so the `pytest` step degenerates to a compilation sanity check.
-- **Statistical power.** The validation set is 12 cases; the effective differential sample is 5. Headline numbers are reported with this in mind.
-- **Single backbone.** All results use one LLM (`qwen2.5-coder:14b-instruct`). The architecture is model-agnostic by construction, but cross-model generalisation is future work.
-- **Component ablation.** Retrieval-only and guardrails-only conditions are not yet reported. The current evidence supports *"the coupled pipeline outperforms an unguarded baseline"*, not *"coupling is the cause"*.
-
-<br/>
-
-## 📚 Citation
-
-If GRAP4Q informs your work, please cite the paper:
-
-```bibtex
-@article{amato2026grap4q,
-  title   = {GRAP4Q: An LLM-based Framework for Quantum Coding Assistance},
-  author  = {Amato, Flora and Cirillo, Egidia and
-             Ghosh, Rajib Chandra and Moccardi, Alberto},
-  journal = {Under review},
-  year    = {2026},
-  note    = {Code: \url{https://github.com/Al-Moccardi/GRAP4Q}}
-}
-```
-
-<br/>
-
-## 👥 Authors
-
-<div align="center">
-
-**Flora Amato** · **Egidia Cirillo** · **Rajib Chandra Ghosh** · **Alberto Moccardi**
-
-*Department of Electrical Engineering and Information Technology (DIETI)*
-*University of Naples Federico II — Italy* 🇮🇹
-
-</div>
-
-<br/>
-
 ## 🤝 Acknowledgements
 
 This work was partially supported by **PNRR MUR Project PE0000013–FAIR**.
