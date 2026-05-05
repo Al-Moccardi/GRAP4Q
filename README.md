@@ -208,32 +208,6 @@ A live demonstration of the pipeline, including a three-panel inspection view (b
 
 <br/>
 
-## Limitations
-
-The manuscript discusses three principal threats to validity, which we record here in the interest of transparency.
-
-- **Construct validity.** Lines-F1 measures line-overlap with the gold patch and does not, by itself, certify functional correctness. The Bugs4Q benchmark lacks runnable test suites for the majority of cases, so the `pytest` stage degenerates to a compilation sanity check. Patches that pass all checks may still contain semantic errors detectable only on real quantum hardware or advanced simulators.
-- **Statistical power.** The validation partition contains 12 paired cases, of which seven are tied at zero F1 for both methods. The effective differential sample is therefore five.
-- **Single-backbone evaluation.** All reported results use one language model. The framework is model-agnostic by construction, but cross-model generalisation has not yet been verified empirically.
-
-A retrieval-only and guardrails-only ablation, isolating the contribution of each component independently, is left to future work.
-
-<br/>
-
-## Citation
-
-```bibtex
-@article{amato2026grap4q,
-  title   = {GRAP4Q: An LLM-based Framework for Quantum Coding Assistance},
-  author  = {Amato, Flora and Cirillo, Egidia and
-             Ghosh, Rajib Chandra and Moccardi, Alberto},
-  journal = {Under review},
-  year    = {2026},
-  note    = {Code: \url{https://github.com/Al-Moccardi/GRAP4Q}}
-}
-```
-
-<br/>
 
 ## Authors
 
