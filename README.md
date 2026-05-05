@@ -21,7 +21,7 @@
 
 <br/>
 
-## 🚀 The 30-second pitch
+
 
 Quantum Python code is **brittle**: flipping two qubits in a CNOT, mixing a classical register where a quantum one is expected, or silently swapping `.get_data()` for `.get_counts()` can break a quantum algorithm without any visible syntax error. General-purpose code LLMs, trained mostly on classical Python, **systematically over-edit** these programs — fixing the surface bug while violating the deeper invariants.
 
@@ -52,25 +52,39 @@ On the open-source **Bugs4Q** benchmark, GRAP4Q **never underperforms** an ungua
 
 <br/>
 
+
 ## 🧠 How it works
 
 ```mermaid
 flowchart LR
-    A[🐛 Buggy<br/>Quantum Code] --> B[Retriever]
-    B --> B1[AST / Window<br/>Chunking]
-    B --> B2[BM25 + Quantum<br/>Domain Hints]
-    B --> B3[Cross-Encoder<br/>Re-Ranking]
-    B --> C[Span Selection<br/>K=2 Coverage-Balanced]
-    C --> D[🤖 LLM Patcher<br/>qwen2.5-coder]
-    D --> E{🛡️ CompositeGuard}
-    E -->|fail| D
-    E -->|pass| F[✅ Patched Code<br/>+ Rationale]
+    A[🐛 Buggy<br/>Quantum Code]
 
-    style A fill:#fee,stroke:#c33
-    style F fill:#efe,stroke:#3c3
-    style E fill:#ffd,stroke:#cc3
-    style D fill:#eef,stroke:#36c
+    subgraph R [🔍 Quantum-Aware Retriever]
+        direction TB
+        R1[AST / Window<br/>Chunking] --> R2[BM25<br/>+ Quantum Hints]
+        R2 --> R3[Cross-Encoder<br/>Re-Ranking]
+        R3 --> R4[Coverage-Balanced<br/>Selector K=2]
+    end
+
+    A --> R
+    R --> S[📍 Allowed Edit Spans<br/>𝒜 = ⋃ focus h]
+    S --> D[🤖 LLM Patcher<br/>qwen2.5-coder<br/>strict JSON output]
+    D --> E{🛡️ CompositeGuard<br/>G1–G4}
+    E -->|fail| FB[📝 Structured<br/>feedback]
+    FB --> D
+    E -->|pass| T{🧪 pytest<br/>if available}
+    T -->|fail| FB
+    T -->|pass| F[✅ Patched Code<br/>+ Rationale]
+
+    style A fill:#fee,stroke:#c33,color:#000
+    style F fill:#efe,stroke:#3c3,color:#000
+    style E fill:#ffd,stroke:#cc3,color:#000
+    style T fill:#ffd,stroke:#cc3,color:#000
+    style D fill:#eef,stroke:#36c,color:#000
+    style S fill:#fef,stroke:#93c,color:#000
+    style FB fill:#fff3cd,stroke:#a80,color:#000
 ```
+
 
 The pipeline is governed by a **shared edit-region contract** between retrieval and guardrails: retrieval identifies the spans where edits are *syntactically* admissible, and the guardrails enforce *semantic* admissibility on whatever the LLM proposes within those spans.
 
