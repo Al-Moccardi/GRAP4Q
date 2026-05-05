@@ -218,14 +218,6 @@ University of Naples Federico II, Italy.
 
 <br/>
 
-## Acknowledgements
-
-This work was partially supported by **PNRR MUR Project PE0000013 — FAIR**.
-
-We thank the authors of the Bugs4Q benchmark for releasing the dataset on which this evaluation is based, and the maintainers of the Qiskit, Ollama, and Sentence-Transformers projects for the underlying tooling.
-
-<br/>
-
 ## License
 
 This repository is released under the MIT License. See [`LICENSE`](LICENSE) for details.
