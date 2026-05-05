@@ -1,6 +1,7 @@
 <div align="center">
 
 # ⚛️ GRAP4Q
+[🌐 Try it live](https://grapq.idealunina.com/)]
 
 ### *Guided Retrieval and Patching for Quantum Code*
 
@@ -15,7 +16,6 @@
 
 ---
 
-*"Find the right span. Change as little as possible. Reject unsafe modifications."*
 
 </div>
 
