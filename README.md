@@ -16,6 +16,10 @@
 </div>
 
 <br/>
+> **Note.** The `legacy/` and `new/` codebases are functionally identical; `new/` is a modularised, more readable refactoring of `legacy/` and produces the same experimental results.
+
+> **Try the live demo:** [grapq.idealunina.com](https://grapq.idealunina.com/) — interactive Streamlit application demonstrating the full GRAP4Q pipeline.
+
 
 ## Overview
 
@@ -195,20 +199,6 @@ A retrieval-only and guardrails-only ablation, isolating the contribution of eac
 
 <br/>
 
-## Citation
-
-```bibtex
-@article{amato2026grap4q,
-  title   = {GRAP4Q: An LLM-based Framework for Quantum Coding Assistance},
-  author  = {Amato, Flora and Cirillo, Egidia and
-             Ghosh, Rajib Chandra and Moccardi, Alberto},
-  journal = {Under review},
-  year    = {2026},
-  note    = {Code: \url{https://github.com/Al-Moccardi/GRAP4Q}}
-}
-```
-
-<br/>
 
 ## Authors
 
@@ -219,11 +209,6 @@ University of Naples Federico II, Italy.
 
 <br/>
 
-## Acknowledgements
-
-This work was partially supported by **PNRR MUR Project PE0000013 — FAIR**.
-
-We thank the authors of the Bugs4Q benchmark for releasing the dataset on which this evaluation is based, and the maintainers of the Qiskit, Ollama, and Sentence-Transformers projects for the underlying tooling.
 
 <br/>
 
