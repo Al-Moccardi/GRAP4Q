@@ -1,65 +1,64 @@
 <div align="center">
 
-# ⚛️ GRAP4Q
-🌐 [Try it live](https://grapq.idealunina.com/)
+# GRAP4Q
 
-### *Guided Retrieval and Patching for Quantum Code*
+### Guided Retrieval and Patching for Quantum Code
 
-**An LLM-based framework for safe, guardrail-constrained patching of quantum Python programs**
+**An LLM-based framework for guardrail-constrained patching of quantum Python programs**
 
-[![Paper](https://img.shields.io/badge/Paper-Under%20Review-orange?style=for-the-badge&logo=read-the-docs)](https://github.com/Al-Moccardi/GRAP4Q)
-[![Live Demo](https://img.shields.io/badge/Live_Demo-grapq.idealunina.com-brightgreen?style=for-the-badge&logo=googlechrome)](https://grapq.idealunina.com/)
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
-[![Qiskit](https://img.shields.io/badge/Qiskit-Compatible-6929C4?style=for-the-badge&logo=ibm&logoColor=white)](https://qiskit.org/)
-[![Ollama](https://img.shields.io/badge/Ollama-qwen2.5--coder--14B-000000?style=for-the-badge)](https://ollama.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
-
----
-
+[![Paper](https://img.shields.io/badge/paper-under%20review-orange)](https://github.com/Al-Moccardi/GRAP4Q)
+[![Demo](https://img.shields.io/badge/demo-grapq.idealunina.com-brightgreen)](https://grapq.idealunina.com/)
+[![Python](https://img.shields.io/badge/python-3.10+-blue)](https://www.python.org/)
+[![Qiskit](https://img.shields.io/badge/qiskit-compatible-6929C4)](https://qiskit.org/)
+[![Ollama](https://img.shields.io/badge/backbone-qwen2.5--coder--14B-000000)](https://ollama.com/)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 </div>
 
 <br/>
 
+## Overview
 
+This repository accompanies the manuscript *"GRAP4Q: An LLM-based Framework for Quantum Coding Assistance"* and provides the source code, data splits, experimental logs, and deployed demonstration of the framework described therein.
 
-Quantum Python code is **brittle**: flipping two qubits in a CNOT, mixing a classical register where a quantum one is expected, or silently swapping `.get_data()` for `.get_counts()` can break a quantum algorithm without any visible syntax error. General-purpose code LLMs, trained mostly on classical Python, **systematically over-edit** these programs — fixing the surface bug while violating the deeper invariants.
+Quantum Python programs are sensitive to edits that preserve syntactic correctness but violate program-level invariants — for example, the ordering of qubits in two-qubit gates, the typing of quantum and classical registers, or the integrity of compiler-pass interfaces. General-purpose code language models, trained predominantly on classical Python, tend to over-edit such programs and break these invariants while addressing the surface defect.
 
-**GRAP4Q is a retrieval-augmented, guardrail-constrained patching framework specifically engineered for this brittleness.** It combines:
+GRAP4Q addresses this problem by coupling three components:
 
-🔍 &nbsp; A **quantum-aware retriever** that bounds *where* an LLM is allowed to edit
-🛡️ &nbsp; A **runtime guardrail layer** that blocks edits violating quantum-program invariants
-✏️ &nbsp; A **constrained LLM patcher** (qwen2.5-coder:14B) that produces minimal, auditable diffs with rationales
+1. a **quantum-aware retriever** that selects the regions of the buggy file where edits are syntactically admissible;
+2. a **runtime guardrail layer** that enforces four deterministic semantic checks on every candidate patch and triggers structured refinement feedback on failure;
+3. a **constrained large-language-model patcher** that proposes minimal, span-bounded edits in a strict JSON schema, accompanied by a natural-language rationale.
 
-On the open-source **Bugs4Q** benchmark, GRAP4Q **never underperforms** an unguarded LLM baseline — and reduces the rate of unsafe patches by an order of magnitude.
+The framework is evaluated on the open-source [Bugs4Q](https://zenodo.org/records/8148982) benchmark of reproducible quantum bugs, using `qwen2.5-coder:14b-instruct` as the generative backbone.
 
 <br/>
 
-## 📊 Headline results
+## Empirical results
+
+The principal finding on the validation partition (12 paired cases) is summarised below.
 
 <div align="center">
 
 | Metric | Pure-LLM | **GRAP4Q** | Δ |
 |:---|:---:|:---:|:---:|
-| Mean Lines-F1 (n=12) | 0.172 | **0.245** | +42% relative |
-| Files patched | 8 / 12 | **12 / 12** | +50% coverage |
-| Distortion rate | 67% | **8%** | −59 pp |
-| Win / loss / tie | — | **5 / 0 / 7** | sign-test *p*=0.031 |
-
-*Retrieval ceiling on the best configuration: Hit@K = MRR = nDCG@K = LineRecall@K = **1.00***
+| Mean Lines-F1 | 0.172 | **0.245** | +0.073 (+42% relative) |
+| Files patched | 8 / 12 | **12 / 12** | — |
+| Output-side admissibility failures | 8 / 12 | **1 / 12** | −7 cases |
+| Win / loss / tie | — | 5 / 0 / 7 | sign-test *p* = 0.031 |
 
 </div>
 
+The retrieval ablation (Section 6.1 of the manuscript) selects a configuration combining sliding-window chunking, quantum-domain query hints, cross-encoder re-ranking, and a coverage-balanced selector, which attains Hit@K = MRR = nDCG@K = LineRecall@K = 1.00 on the validation cases. Per-case data and reproduction scripts are provided under `experiments/`.
+
 <br/>
 
-
-## 🧠 How it works
+## Architecture
 
 ```mermaid
 flowchart LR
-    A[🐛 Buggy<br/>Quantum Code]
+    A[Buggy<br/>Quantum Code]
 
-    subgraph R [🔍 Quantum-Aware Retriever]
+    subgraph R [Quantum-Aware Retriever]
         direction TB
         R1[AST / Window<br/>Chunking] --> R2[BM25<br/>+ Quantum Hints]
         R2 --> R3[Cross-Encoder<br/>Re-Ranking]
@@ -67,14 +66,14 @@ flowchart LR
     end
 
     A --> R
-    R --> S[📍 Allowed Edit Spans<br/>𝒜 = ⋃ focus h]
-    S --> D[🤖 LLM Patcher<br/>qwen2.5-coder<br/>strict JSON output]
-    D --> E{🛡️ CompositeGuard<br/>G1–G4}
-    E -->|fail| FB[📝 Structured<br/>feedback]
+    R --> S[Allowed Edit Region<br/>𝒜 = ⋃ focus h]
+    S --> D[LLM Patcher<br/>qwen2.5-coder<br/>strict JSON]
+    D --> E{CompositeGuard<br/>G1 – G4}
+    E -->|fail| FB[Structured<br/>feedback]
     FB --> D
-    E -->|pass| T{🧪 pytest<br/>if available}
+    E -->|pass| T{pytest<br/>if available}
     T -->|fail| FB
-    T -->|pass| F[✅ Patched Code<br/>+ Rationale]
+    T -->|pass| F[Patched Code<br/>+ Rationale]
 
     style A fill:#fee,stroke:#c33,color:#000
     style F fill:#efe,stroke:#3c3,color:#000
@@ -85,133 +84,149 @@ flowchart LR
     style FB fill:#fff3cd,stroke:#a80,color:#000
 ```
 
-
-The pipeline is governed by a **shared edit-region contract** between retrieval and guardrails: retrieval identifies the spans where edits are *syntactically* admissible, and the guardrails enforce *semantic* admissibility on whatever the LLM proposes within those spans.
-
-<br/>
-
-## 🛡️ The guardrail layer
-
-GRAP4Q operates **two distinct safety layers**, often confused in the literature — we make the distinction explicit:
-
-### Runtime guardrails *(applied during generation)*
-
-Four deterministic checks that intercept unsafe LLM proposals **before** they leave the agent loop:
-
-| # | Check | What it prevents |
-|:---:|:---|:---|
-| G1 | **EditRegionOK** | Edits outside the retrieval-selected spans |
-| G2 | **PassInterfaceOK** | Silent changes to public function signatures |
-| G3 | **QuantumRegisterSanityOK** | Quantum gates applied to classical registers |
-| G4 | **QubitOrderHeuristicOK** | Uncontrolled qubit-index swaps in CNOT-like ops |
-
-### Post-hoc admissibility *(applied during evaluation)*
-
-Four retrospective criteria that quantify safety on a population of patches:
-
-| # | Criterion | Pure-LLM | GRAP4Q |
-|:---:|:---|:---:|:---:|
-| 1 | AST parse failure | 5 / 12 | **0 / 12** |
-| 2 | API drift > 40% | 1 / 12 | 1 / 12 |
-| 3 | Identifier Jaccard < 0.60 | 1 / 12 | **0 / 12** |
-| 4 | Excessive edits, no F1 gain | 1 / 12 | **0 / 12** |
-| | **Any criterion fired** | **8 / 12** | **1 / 12** |
+The pipeline is governed by a shared edit-region contract between retrieval and the guardrail layer: the retriever computes the allowed region $\mathcal{A}$, the language model is constrained to propose edits whose intervals lie within $\mathcal{A}$, and the runtime checks G1–G4 enforce semantic admissibility on the resulting candidate. On failure, structured feedback is returned to the model for up to *T* = 2 refinement rounds before the system declares *No-Edit*.
 
 <br/>
 
-## 🗂️ Repository layout
+## Guardrail design
+
+The framework operates two distinct safety layers, which the manuscript distinguishes carefully.
+
+### Runtime guardrails (CompositeGuard)
+
+Four deterministic checks applied during the agent loop (Algorithm 1):
+
+| Check | Function |
+|:---|:---|
+| **G1 — EditRegionOK** | Verifies that every proposed edit interval lies within $\mathcal{A}$. |
+| **G2 — PassInterfaceOK** | Verifies that public function signatures remain unchanged within edited ranges. |
+| **G3 — QuantumRegisterSanityOK** | Forbids quantum gates on classical registers and vice versa. |
+| **G4 — QubitOrderHeuristicOK** | Flags uncontrolled qubit-index swaps within edited spans. |
+
+### Post-hoc admissibility criteria
+
+Four retrospective measures used to evaluate patch safety on a population (Section 5.2.3):
+
+| Criterion | Pure-LLM | GRAP4Q |
+|:---|:---:|:---:|
+| AST parse failure | 5 / 12 | **0 / 12** |
+| API drift > 0.40 | 1 / 12 | 1 / 12 |
+| Identifier Jaccard < 0.60 | 1 / 12 | **0 / 12** |
+| Excessive edits, no F1 gain | 1 / 12 | **0 / 12** |
+| **Any criterion fired** | **8 / 12** | **1 / 12** |
+
+A six-variant prompt-sensitivity ablation (Section 8) further demonstrates that the runtime layer, rather than the prompt-level reminders, carries the safety load: removing the in-prompt quantum guardrail bullets (variant V6) leaves both Lines-F1 and admissibility unchanged.
+
+<br/>
+
+## Repository structure
 
 ```
 GRAP4Q/
-├── 📄 paper/                   # Manuscript & supplementary material
+├── paper/                      Manuscript and supplementary material
 │
-├── 🧠 src/
-│   ├── retrieval/              # Quantum-aware BM25 + cross-encoder
-│   │   ├── chunker.py          # AST + sliding-window chunking
-│   │   ├── ranker.py           # MS-MARCO MiniLM cross-encoder
-│   │   └── selector.py         # Coverage-balanced K=2 selection
+├── src/
+│   ├── retrieval/              Quantum-aware BM25 + cross-encoder
+│   │   ├── chunker.py          AST and sliding-window chunking
+│   │   ├── ranker.py           Cross-encoder (ms-marco-MiniLM-L-6-v2)
+│   │   └── selector.py         Coverage-balanced K=2 span selection
 │   │
-│   ├── patching/               # LLM patcher + guardrails
-│   │   ├── agent.py            # Refinement loop with feedback
-│   │   ├── guardrails.py       # CompositeGuard (G1–G4)
-│   │   └── prompts.py          # System prompts (V1–V6 ablation)
+│   ├── patching/               LLM agent and runtime guardrails
+│   │   ├── agent.py            Refinement loop with feedback
+│   │   ├── guardrails.py       CompositeGuard (G1–G4)
+│   │   └── prompts.py          System prompts (V1–V6)
 │   │
-│   └── evaluation/             # Lines-F1, drift, admissibility
+│   └── evaluation/             Lines-F1, drift, admissibility metrics
 │
-├── 📊 experiments/             # Per-case CSVs, ablation logs
+├── experiments/                Per-case CSVs and ablation logs
 │   ├── combined_results_val.csv
 │   ├── baselines_comparison_val.csv
 │   └── prompt_ablation/
 │
-├── 🌐 webapp/                  # The deployed Flask UI
-└── 📋 splits_70_25_5.json      # Deterministic train/val/test split
+├── webapp/                     Deployed Flask interface
+└── splits_70_25_5.json         Deterministic train/val/test partition
 ```
 
 <br/>
 
-## ⚡ Quickstart
+## Reproduction
 
 ```bash
-# 1. Clone and install
+# Install dependencies
 git clone https://github.com/Al-Moccardi/GRAP4Q.git
 cd GRAP4Q && pip install -r requirements.txt
 
-# 2. Pull the LLM backbone (≈8 GB)
+# Pull the language-model backbone (~8 GB)
 ollama pull qwen2.5-coder:14b-instruct
 
-# 3. Patch a buggy quantum file
+# Patch a single buggy file
 python run_grap4q.py --input examples/buggy_qft.py \
                      --output patched_qft.py \
                      --explain
 
-# 4. Reproduce the validation results from the paper
+# Reproduce validation-split results from the paper
 python -m experiments.run_validation --split splits_70_25_5.json
 ```
 
-> 💡 **Tip:** For an interactive exploration of the pipeline, visit the deployed web app at **[grapq.idealunina.com](https://grapq.idealunina.com/)** — it shows the buggy source, retrieval trace, guardrail verdict, and patched output side by side.
+A live demonstration of the pipeline, including a three-panel inspection view (buggy source, retrieval and guardrail trace, patched output with admissibility verdict), is available at [grapq.idealunina.com](https://grapq.idealunina.com/).
+
+### Experimental configuration
+
+| Parameter | Value |
+|:---|:---|
+| Generative backbone | `qwen2.5-coder:14b-instruct` (Ollama 0.11.10) |
+| Decoding temperature | 0.0 |
+| Random seed | 7 (Python, NumPy, `random`) |
+| Refinement budget *T* | 2 |
+| Selection budget *K* | 2 |
+| Hardware (paper experiments) | Intel Ultra 9 185H, RTX 4070 |
 
 <br/>
 
-## 🔬 What's in the paper
+## Limitations
 
-The accompanying manuscript reports:
+The manuscript discusses three principal threats to validity, which we record here in the interest of transparency.
 
-- **A retrieval ablation** over chunking heads (AST vs sliding window), query hints, cross-encoder re-ranking, and selector strategies — identifying the configuration that achieves perfect retrieval on the validation cases.
-- **A head-to-head GRAP4Q vs Pure-LLM evaluation** on 12 paired Bugs4Q cases, with paired statistical analysis (sign-test *p* = 0.031).
-- **A non-learned APR baseline** (Rule-APR, 7 hand-coded migration rules) and a **quantum-oriented static analyser** (QChecker, 10 detection rules) for context.
-- **A six-variant prompt-sensitivity ablation** (V1–V6) showing that runtime guardrails — not prompt-level reminders — carry the safety load.
-- **An out-of-benchmark stress test** on five hand-crafted synthetic cases covering algorithmic sign errors, off-by-one logic, transpiler drift, and register misuse.
+- **Construct validity.** Lines-F1 measures line-overlap with the gold patch and does not, by itself, certify functional correctness. The Bugs4Q benchmark lacks runnable test suites for the majority of cases, so the `pytest` stage degenerates to a compilation sanity check. Patches that pass all checks may still contain semantic errors detectable only on real quantum hardware or advanced simulators.
+- **Statistical power.** The validation partition contains 12 paired cases, of which seven are tied at zero F1 for both methods. The effective differential sample is therefore five.
+- **Single-backbone evaluation.** All reported results use one language model. The framework is model-agnostic by construction, but cross-model generalisation has not yet been verified empirically.
 
-<br/>
-
-## 📦 Reproducibility
-
-| Artefact | Status |
-|:---|:---:|
-| Source code (retrieval + agent + guardrails) | ✅ |
-| Deterministic data splits | ✅ |
-| Per-case result CSVs | ✅ |
-| Hardware spec & seed configuration | ✅ |
-| Deployed web demo | ✅ |
-| Ollama model versions pinned | ✅ |
-
-**Hardware used:** Intel Ultra 9 185H · RTX 4070 · Ollama 0.11.10
-**Backbone:** `qwen2.5-coder:14b-instruct` · `temperature = 0.0` · `seed = 7`
-
-## 🤝 Acknowledgements
-
-This work was partially supported by **PNRR MUR Project PE0000013–FAIR**.
-
-We thank the authors of the **Bugs4Q** benchmark for releasing the dataset that made this evaluation possible, and the **Qiskit**, **Ollama**, and **Sentence-Transformers** communities for the tooling.
+A retrieval-only and guardrails-only ablation, isolating the contribution of each component independently, is left to future work.
 
 <br/>
 
----
+## Citation
 
-<div align="center">
+```bibtex
+@article{amato2026grap4q,
+  title   = {GRAP4Q: An LLM-based Framework for Quantum Coding Assistance},
+  author  = {Amato, Flora and Cirillo, Egidia and
+             Ghosh, Rajib Chandra and Moccardi, Alberto},
+  journal = {Under review},
+  year    = {2026},
+  note    = {Code: \url{https://github.com/Al-Moccardi/GRAP4Q}}
+}
+```
 
-**Built with ⚛️ in Naples · Open-source · Reproducible · Honest about its limits**
+<br/>
 
-[🌐 Try it live](https://grapq.idealunina.com/) &nbsp;·&nbsp; [📖 Read the paper](https://github.com/Al-Moccardi/GRAP4Q) &nbsp;·&nbsp; [🐛 Report an issue](https://github.com/Al-Moccardi/GRAP4Q/issues)
+## Authors
 
-</div>
+Flora Amato, Egidia Cirillo, Rajib Chandra Ghosh, Alberto Moccardi
+
+Department of Electrical Engineering and Information Technology (DIETI),
+University of Naples Federico II, Italy.
+
+<br/>
+
+## Acknowledgements
+
+This work was partially supported by **PNRR MUR Project PE0000013 — FAIR**.
+
+We thank the authors of the Bugs4Q benchmark for releasing the dataset on which this evaluation is based, and the maintainers of the Qiskit, Ollama, and Sentence-Transformers projects for the underlying tooling.
+
+<br/>
+
+## License
+
+This repository is released under the MIT License. See [`LICENSE`](LICENSE) for details.
