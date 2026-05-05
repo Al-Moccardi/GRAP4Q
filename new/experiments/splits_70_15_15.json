@@ -1,0 +1,59 @@
+{
+  "n": 42,
+  "train": 29,
+  "val": 6,
+  "test": 7,
+  "train_ids": [
+    "StackExchange/13",
+    "stackoverflow-6-10/bug_1",
+    "Terra-0-4000/11",
+    "Cirq/5",
+    "Terra-0-4000/22",
+    "StackExchange/18",
+    "Terra-4001-6000/Bug_5",
+    "StackExchange/9",
+    "Terra-0-4000/10",
+    "stackoverflow-6-10/bug_3",
+    "StackExchange/14",
+    "Terra-0-4000/13",
+    "StackExchange/1",
+    "Cirq/7",
+    "Terra-4001-6000/Bug_8",
+    "Terra-0-4000/16",
+    "Aer/bug_10",
+    "StackExchange/4",
+    "Cirq/2",
+    "Cirq/6",
+    "Terra-0-4000/24",
+    "StackExchange/6",
+    "Aer/bug_7",
+    "Cirq/4",
+    "StackExchange/20",
+    "Cirq/3",
+    "stackoverflow-6-10/bug_2",
+    "Aer/bug_1",
+    "StackExchange/17"
+  ],
+  "val_ids": [
+    "StackExchange/12",
+    "Cirq/1",
+    "StackExchange/16",
+    "StackExchange/7",
+    "StackExchange/8",
+    "StackExchange/15"
+  ],
+  "test_ids": [
+    "Terra-4001-6000/Bug_11",
+    "StackExchange/3",
+    "StackExchange/5",
+    "StackExchange_2/bug_1",
+    "StackExchange/10",
+    "Terra-0-4000/8",
+    "StackExchange_2/bug_2"
+  ],
+  "ratios": {
+    "train": 0.7,
+    "val": 0.15,
+    "test": 0.15
+  }
+}

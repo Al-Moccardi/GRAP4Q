@@ -1,0 +1,33 @@
+{
+  "case_id": "case_syn_02",
+  "variant": "purellm",
+  "family": "syn_register_misuse",
+  "patched_src": "\"\"\"Conditioned single-qubit rotation using a measurement outcome.\n\nMeasures qubit 0 into a classical register, then applies a controlled\nrotation conditional on the classical outcome. The implementation\nincorrectly uses the classical register as a control wire for the\nRY gate, instead of using c_if for classical conditioning.\n\"\"\"\nfrom qiskit import (QuantumCircuit, QuantumRegister, ClassicalRegister,\n                    Aer, execute)\nimport numpy as np\n\n\ndef build_conditioned():\n    qr = QuantumRegister(2, name=\"q\")\n    cr = ClassicalRegister(1, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n\n    qc.cry(np.pi / 2, qr[0], qr[1]).c_if(cr, 1)\n\n    # BUG: cr is a classical register; cannot be used as a control\n    # qubit for cry. The intended behavior is to apply ry(pi/2) only\n    # if the measurement was 1.\n    qc.cry(np.pi / 2, cr[0], qr[1])\n\n    qc.iden(qr[1])\n    qc.measure(qr[1], cr[0])\n    return qc\n\n\ndef run_conditioned():\n    qc = build_conditioned()\n    backend = Aer.get_backend(\"local_qasm_simulator\")\n    job = execute(qc, backend=backend, shots=512)\n    result = job.result()\n    return result.get_data(qc)\n\n\nif __name__ == \"__main__\":\n    print(run_conditioned())",
+  "rationale": "The original code incorrectly uses the classical register as a control wire for the RY gate. The correct approach is to use the `c_if` method to apply the conditional rotation based on the measurement outcome of the classical register.",
+  "edits": [
+    {
+      "file": "case_syn_02/buggy.py",
+      "start": 18,
+      "end": 19,
+      "replacement": "    qc.cry(np.pi / 2, qr[0], qr[1]).c_if(cr, 1)\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      40
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 1,
+  "lines_touched": 2,
+  "delta_abs_lines": 1,
+  "attempts": 1,
+  "wall_time_s": 33.16724896430969,
+  "guard_notes": [
+    "pure-LLM: no retrieval, no guardrails, single context span 1-40, no refinement"
+  ],
+  "error": null
+}

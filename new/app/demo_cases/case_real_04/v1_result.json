@@ -1,0 +1,35 @@
+{
+  "case_id": "case_real_04",
+  "variant": "v1",
+  "family": "real_iden_only",
+  "patched_src": "from qiskit import *\n\ncircuit = QuantumCircuit(1)\ncircuit.i(0)\nprint(circuit)",
+  "rationale": "The method `iden` is not a valid method in Qiskit for applying the identity gate. The correct method to apply the identity gate is `i`. This change ensures that the code correctly applies the identity gate to the quantum circuit.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 4,
+      "end": 4,
+      "replacement": "circuit.i(0)\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      5
+    ],
+    [
+      1,
+      5
+    ]
+  ],
+  "lines_f1": 1.0,
+  "lines_p": 1.0,
+  "lines_r": 1.0,
+  "num_edits": 1,
+  "lines_touched": 1,
+  "delta_abs_lines": 0,
+  "attempts": 1,
+  "wall_time_s": 35.417662620544434,
+  "guard_notes": [],
+  "error": null
+}

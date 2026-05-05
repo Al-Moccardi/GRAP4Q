@@ -1,0 +1,11 @@
+{
+  "case_id": "case_syn_01",
+  "kind": "synthetic",
+  "source": "synthetic",
+  "n_lines": 39,
+  "family": "syn_logic_offbyone",
+  "circuit": "Linear cluster state",
+  "summary": "Off-by-one in CNOT chain (range(n) iterates past last qubit). Plus deprecated iden. Fix: range(n-1).",
+  "n_qubits": 4,
+  "expected_difficulty": "high for Pure-LLM (logic bug needs understanding the chain semantics)"
+}

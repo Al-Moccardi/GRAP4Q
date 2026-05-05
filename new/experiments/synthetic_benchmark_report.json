@@ -1,0 +1,298 @@
+{
+  "config": {
+    "config_name": "WIN_base__hint__balanced__rerank",
+    "rerank_enabled": true,
+    "manifest_path": "experiments\\synthetic_test_set\\manifest.json",
+    "scoring": "paper-protocol (src/metrics.py::evaluate_candidate)",
+    "bootstrap_n_resamples": 10000,
+    "bootstrap_ci": 0.95,
+    "per_case_index": "donors + queried case (paper-style)",
+    "donors_active": true,
+    "donor_chunks": 58,
+    "donor_cases_loaded": 29,
+    "donor_cases_skipped": 0,
+    "donor_window": 20,
+    "donor_overlap": 5,
+    "splits_path": "experiments\\splits_70_15_15.json",
+    "db_root": "data\\bugs4q\\Bugs4Q-Database",
+    "train_ids_count": 29
+  },
+  "summary": {
+    "n_cases": 5,
+    "mean_lines_f1": 0.18,
+    "mean_lines_f1_ci_lower": 0.0,
+    "mean_lines_f1_ci_upper": 0.38,
+    "mean_lines_f1_conditional": 0.45,
+    "n_lines_f1_pos": 2,
+    "lines_f1_pos_rate": 0.4,
+    "per_defect": {
+      "DeprecatedExecuteAPI": {
+        "injected": 4,
+        "fixed_regex": 0,
+        "fix_rate_regex": 0.0,
+        "introduced": 0,
+        "introduction_rate": 0.0
+      },
+      "LegacyBackendName": {
+        "injected": 2,
+        "fixed_regex": 0,
+        "fix_rate_regex": 0.0,
+        "introduced": 0,
+        "introduction_rate": 0.0
+      },
+      "GetDataMisuse": {
+        "injected": 4,
+        "fixed_regex": 0,
+        "fix_rate_regex": 0.0,
+        "introduced": 0,
+        "introduction_rate": 0.0
+      },
+      "IdenGateRename": {
+        "injected": 2,
+        "fixed_regex": 0,
+        "fix_rate_regex": 0.0,
+        "introduced": 0,
+        "introduction_rate": 0.0
+      },
+      "MissingAerImport": {
+        "injected": 0,
+        "fixed_regex": 0,
+        "fix_rate_regex": 0.0,
+        "introduced": 0,
+        "introduction_rate": 0.0
+      },
+      "QubitOrderFlip": {
+        "injected": 0,
+        "fixed_regex": 0,
+        "fix_rate_regex": 0.0,
+        "introduced": 0,
+        "introduction_rate": 0.0
+      },
+      "MissingMeasure": {
+        "injected": 0,
+        "fixed_regex": 0,
+        "fix_rate_regex": 0.0,
+        "introduced": 0,
+        "introduction_rate": 0.0
+      }
+    },
+    "by_template": {
+      "register": {
+        "n_pos": 2,
+        "n_cases": 3,
+        "mean_lines_f1": 0.3,
+        "pos_rate": 0.6666666666666666
+      },
+      "single_qubit": {
+        "n_pos": 0,
+        "n_cases": 2,
+        "mean_lines_f1": 0.0,
+        "pos_rate": 0.0
+      }
+    },
+    "by_injected_count": {
+      "1": {
+        "n_cases": 1,
+        "mean_lines_f1": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "n_lines_f1_pos": 0
+      },
+      "2": {
+        "n_cases": 2,
+        "mean_lines_f1": 0.0,
+        "ci_lower": 0.0,
+        "ci_upper": 0.0,
+        "n_lines_f1_pos": 0
+      },
+      "3": {
+        "n_cases": 1,
+        "mean_lines_f1": 0.5,
+        "ci_lower": 0.5,
+        "ci_upper": 0.5,
+        "n_lines_f1_pos": 1
+      },
+      "4": {
+        "n_cases": 1,
+        "mean_lines_f1": 0.4,
+        "ci_lower": 0.4,
+        "ci_upper": 0.4,
+        "n_lines_f1_pos": 1
+      }
+    },
+    "latency_stats": {
+      "mean": 35.56860585212708,
+      "median": 38.32866907119751,
+      "min": 10.594810247421265,
+      "max": 50.713464975357056,
+      "p95": 44.93619441986084
+    },
+    "error_count": 0
+  },
+  "rows": [
+    {
+      "id": "case_001",
+      "template": "register",
+      "n_lines": 0,
+      "injected": [
+        "GetDataMisuse"
+      ],
+      "n_injected": 1,
+      "remaining": [
+        "GetDataMisuse"
+      ],
+      "introduced": [],
+      "method": "GRAP",
+      "lines_p": 0.0,
+      "lines_r": 0.0,
+      "lines_f1": 0.0,
+      "num_edits": 1,
+      "lines_touched": 8,
+      "delta_abs_lines": 0,
+      "guard_notes": "",
+      "rationale": "Removed the unnecessary import of 'execute' from the allowed line range to minimize changes while preserving the public APIs and qubit register semantics.",
+      "ast_parse_fail": false,
+      "api_drift_gt40": false,
+      "id_jacc_lt60": false,
+      "excessive_no_gain": false,
+      "drift": 0.0,
+      "id_jacc": 0.9583333333333334,
+      "wall_time_s": 33.269890546798706,
+      "error": null
+    },
+    {
+      "id": "case_002",
+      "template": "register",
+      "n_lines": 0,
+      "injected": [
+        "DeprecatedExecuteAPI",
+        "GetDataMisuse",
+        "IdenGateRename",
+        "LegacyBackendName"
+      ],
+      "n_injected": 4,
+      "remaining": [
+        "DeprecatedExecuteAPI",
+        "GetDataMisuse",
+        "IdenGateRename",
+        "LegacyBackendName"
+      ],
+      "introduced": [],
+      "method": "GRAP",
+      "lines_p": 1.0,
+      "lines_r": 0.25,
+      "lines_f1": 0.4,
+      "num_edits": 1,
+      "lines_touched": 12,
+      "delta_abs_lines": 0,
+      "guard_notes": "",
+      "rationale": "The original code uses `get_data` method which is not the correct way to retrieve counts from the result. The correct method to use is `get_counts`. This change ensures that the code retrieves the measurement results correctly.",
+      "ast_parse_fail": false,
+      "api_drift_gt40": false,
+      "id_jacc_lt60": false,
+      "excessive_no_gain": false,
+      "drift": 0.0,
+      "id_jacc": 0.9166666666666666,
+      "wall_time_s": 50.713464975357056,
+      "error": null
+    },
+    {
+      "id": "case_003",
+      "template": "single_qubit",
+      "n_lines": 0,
+      "injected": [
+        "DeprecatedExecuteAPI",
+        "GetDataMisuse"
+      ],
+      "n_injected": 2,
+      "remaining": [
+        "DeprecatedExecuteAPI",
+        "GetDataMisuse"
+      ],
+      "introduced": [],
+      "method": "GRAP",
+      "lines_p": 0.0,
+      "lines_r": 0.0,
+      "lines_f1": 0.0,
+      "num_edits": 0,
+      "lines_touched": 0,
+      "delta_abs_lines": 0,
+      "guard_notes": "",
+      "rationale": "The provided code snippets are identical and do not contain any errors or issues that require modification within the allowed line ranges.",
+      "ast_parse_fail": false,
+      "api_drift_gt40": false,
+      "id_jacc_lt60": false,
+      "excessive_no_gain": false,
+      "drift": 0.0,
+      "id_jacc": 1.0,
+      "wall_time_s": 10.594810247421265,
+      "error": null
+    },
+    {
+      "id": "case_004",
+      "template": "single_qubit",
+      "n_lines": 0,
+      "injected": [
+        "DeprecatedExecuteAPI",
+        "IdenGateRename"
+      ],
+      "n_injected": 2,
+      "remaining": [
+        "DeprecatedExecuteAPI",
+        "IdenGateRename"
+      ],
+      "introduced": [],
+      "method": "GRAP",
+      "lines_p": 0.0,
+      "lines_r": 0.0,
+      "lines_f1": 0.0,
+      "num_edits": 1,
+      "lines_touched": 9,
+      "delta_abs_lines": 0,
+      "guard_notes": "",
+      "rationale": "The provided code snippet is already correct and does not require any changes. The instructions are to return strict JSON only, so no modifications were made to the original code.",
+      "ast_parse_fail": false,
+      "api_drift_gt40": false,
+      "id_jacc_lt60": false,
+      "excessive_no_gain": false,
+      "drift": 0.0,
+      "id_jacc": 1.0,
+      "wall_time_s": 38.32866907119751,
+      "error": null
+    },
+    {
+      "id": "case_005",
+      "template": "register",
+      "n_lines": 0,
+      "injected": [
+        "DeprecatedExecuteAPI",
+        "GetDataMisuse",
+        "LegacyBackendName"
+      ],
+      "n_injected": 3,
+      "remaining": [
+        "DeprecatedExecuteAPI",
+        "GetDataMisuse",
+        "LegacyBackendName"
+      ],
+      "introduced": [],
+      "method": "GRAP",
+      "lines_p": 1.0,
+      "lines_r": 0.3333333333333333,
+      "lines_f1": 0.5,
+      "num_edits": 1,
+      "lines_touched": 12,
+      "delta_abs_lines": 0,
+      "guard_notes": "",
+      "rationale": "The original code was using `get_data` method which is not the correct way to retrieve counts from the result. The correct method to use is `get_counts`. This change ensures that the code retrieves the measurement results correctly.",
+      "ast_parse_fail": false,
+      "api_drift_gt40": false,
+      "id_jacc_lt60": false,
+      "excessive_no_gain": false,
+      "drift": 0.0,
+      "id_jacc": 0.9166666666666666,
+      "wall_time_s": 44.93619441986084,
+      "error": null
+    }
+  ]
+}

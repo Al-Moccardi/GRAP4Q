@@ -1,0 +1,233 @@
+[
+  {
+    "case": "Cirq/1",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 0,
+    "findings": []
+  },
+  {
+    "case": "StackExchange/10",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 0,
+    "findings": []
+  },
+  {
+    "case": "StackExchange/12",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 4,
+    "findings": [
+      {
+        "rule": "QC04",
+        "line": 27,
+        "message": "Uses `execute(...)`, which is deprecated/removed post-Qiskit 1.0. Migrate to `Sampler`/`Estimator` or `backend.run(transpile(qc, backend))`.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC04",
+        "line": 32,
+        "message": "Uses `execute(...)`, which is deprecated/removed post-Qiskit 1.0. Migrate to `Sampler`/`Estimator` or `backend.run(transpile(qc, backend))`.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC02",
+        "line": 1,
+        "message": "Circuit `circ` has no ClassicalRegister but `.measure(...)` is called. Add a ClassicalRegister or use `measure_all()`.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC02",
+        "line": 1,
+        "message": "Circuit `meas` has no ClassicalRegister but `.measure(...)` is called. Add a ClassicalRegister or use `measure_all()`.",
+        "severity": "warning"
+      }
+    ]
+  },
+  {
+    "case": "StackExchange/15",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 3,
+    "findings": [
+      {
+        "rule": "QC10",
+        "line": 37,
+        "message": "Call `.cu1(...)` on circuit but `cu1` is not a recognized Qiskit gate/operation.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC04",
+        "line": 47,
+        "message": "Uses `execute(...)`, which is deprecated/removed post-Qiskit 1.0. Migrate to `Sampler`/`Estimator` or `backend.run(transpile(qc, backend))`.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC02",
+        "line": 1,
+        "message": "Circuit `qpe` has no ClassicalRegister but `.measure(...)` is called. Add a ClassicalRegister or use `measure_all()`.",
+        "severity": "warning"
+      }
+    ]
+  },
+  {
+    "case": "StackExchange/16",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 0,
+    "findings": []
+  },
+  {
+    "case": "StackExchange/3",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 2,
+    "findings": [
+      {
+        "rule": "QC10",
+        "line": 12,
+        "message": "Call `.wait(...)` on circuit but `wait` is not a recognized Qiskit gate/operation.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC04",
+        "line": 16,
+        "message": "Uses `execute(...)`, which is deprecated/removed post-Qiskit 1.0. Migrate to `Sampler`/`Estimator` or `backend.run(transpile(qc, backend))`.",
+        "severity": "warning"
+      }
+    ]
+  },
+  {
+    "case": "StackExchange/5",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 2,
+    "findings": [
+      {
+        "rule": "QC04",
+        "line": 10,
+        "message": "Uses `execute(...)`, which is deprecated/removed post-Qiskit 1.0. Migrate to `Sampler`/`Estimator` or `backend.run(transpile(qc, backend))`.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC04",
+        "line": 14,
+        "message": "Uses `execute(...)`, which is deprecated/removed post-Qiskit 1.0. Migrate to `Sampler`/`Estimator` or `backend.run(transpile(qc, backend))`.",
+        "severity": "warning"
+      }
+    ]
+  },
+  {
+    "case": "StackExchange/7",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 3,
+    "findings": [
+      {
+        "rule": "QC04",
+        "line": 5,
+        "message": "Uses `execute(...)`, which is deprecated/removed post-Qiskit 1.0. Migrate to `Sampler`/`Estimator` or `backend.run(transpile(qc, backend))`.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC01",
+        "line": 1,
+        "message": "Classical counts are requested (`.get_counts(...)`) but no `.measure(...)` call is made. The result will be empty or raise.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC03",
+        "line": 1,
+        "message": "Execution call issued but no backend appears to be assigned. Assign a backend (e.g., `Aer.get_backend(...)`) before `.run()`.",
+        "severity": "warning"
+      }
+    ]
+  },
+  {
+    "case": "StackExchange/8",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 3,
+    "findings": [
+      {
+        "rule": "QC04",
+        "line": 42,
+        "message": "Uses `execute(...)`, which is deprecated/removed post-Qiskit 1.0. Migrate to `Sampler`/`Estimator` or `backend.run(transpile(qc, backend))`.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC02",
+        "line": 1,
+        "message": "Circuit `circ` has no ClassicalRegister but `.measure(...)` is called. Add a ClassicalRegister or use `measure_all()`.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC03",
+        "line": 1,
+        "message": "Execution call issued but no backend appears to be assigned. Assign a backend (e.g., `Aer.get_backend(...)`) before `.run()`.",
+        "severity": "warning"
+      }
+    ]
+  },
+  {
+    "case": "StackExchange_2/bug_1",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 0,
+    "findings": []
+  },
+  {
+    "case": "StackExchange_2/bug_2",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 0,
+    "findings": []
+  },
+  {
+    "case": "Terra-0-4000/8",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 3,
+    "findings": [
+      {
+        "rule": "QC04",
+        "line": 5,
+        "message": "Uses `execute(...)`, which is deprecated/removed post-Qiskit 1.0. Migrate to `Sampler`/`Estimator` or `backend.run(transpile(qc, backend))`.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC05",
+        "line": 5,
+        "message": "Deprecated backend name 'local_statevector_simulator'. Use `Aer.get_backend('statevector_simulator')` (aer 0.13+) or the primitives API.",
+        "severity": "warning"
+      },
+      {
+        "rule": "QC06",
+        "line": 6,
+        "message": "`.get_data(qc)` is deprecated. Use `.get_counts()` or `.get_statevector()` depending on the backend.",
+        "severity": "warning"
+      }
+    ]
+  },
+  {
+    "case": "Terra-4001-6000/Bug_11",
+    "file": "buggy.py",
+    "ast_parse_ok": true,
+    "parse_error": null,
+    "num_findings": 0,
+    "findings": []
+  }
+]

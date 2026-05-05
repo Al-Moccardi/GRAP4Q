@@ -1,0 +1,7 @@
+case,method,lines_p,lines_r,lines_f1,num_edits,rules_applied,gold_size,pred_size
+StackExchange/12,RuleAPR,0.0,0.0,0.0,4,"['R1', 'R1', 'R6']",2,4
+Cirq/1,RuleAPR,0.0,0.0,0.0,0,[],2,0
+StackExchange/16,RuleAPR,0.0,0.0,0.0,0,[],8,0
+StackExchange/7,RuleAPR,0.0,0.0,0.0,0,[],2,0
+StackExchange/8,RuleAPR,0.0,0.0,0.0,1,['R6'],1,1
+StackExchange/15,RuleAPR,0.0,0.0,0.0,0,[],7,0

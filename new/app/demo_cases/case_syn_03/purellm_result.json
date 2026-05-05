@@ -1,0 +1,33 @@
+{
+  "case_id": "case_syn_03",
+  "variant": "purellm",
+  "family": "syn_pass_interface",
+  "patched_src": "\"\"\"Custom transpiler pass that counts CX gates in a DAG.\n\nImplements a TransformationPass-style class with a `run` method.\nUsed as part of a small custom pass manager to instrument circuits\nbefore execution on the simulator.\n\"\"\"\nfrom qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister\nfrom qiskit import Aer, execute\nfrom qiskit.transpiler.basepasses import TransformationPass\n\n\nclass CountCXPass(TransformationPass):\n    \"\"\"A pass that should preserve the DAG verbatim and stash the CX\n    count on a property attribute. The base TransformationPass\n    contract is `run(self, dag)`.\"\"\"\n\n    def __init__(self):\n        super().__init__()\n        self.cx_count = 0\n\n    def run(self, dag):\n    def run(self, dag, options):\n        self.cx_count = sum(1 for node in dag.op_nodes()\n                            if node.name == \"cx\")\n        return dag\n\n\ndef build_circuit() -> QuantumCircuit:\n    qr = QuantumRegister(3, name=\"q\")\n    cr = ClassicalRegister(3, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n    qc.h(qr[0])\n    qc.cx(qr[0], qr[1])\n    qc.cx(qr[1], qr[2])\n    qc.iden(qr[0])\n    qc.iden(qr[1])\n    qc.iden(qr[2])\n    qc.measure(qr, cr)\n    return qc\n\n\ndef run_demo():\n    qc = build_circuit()\n    backend = Aer.get_backend(\"local_qasm_simulator\")\n    job = execute(qc, backend=backend, shots=1024)\n    return job.result().get_data(qc)\n\n\nif __name__ == \"__main__\":\n    print(run_demo())",
+  "rationale": "The `run` method in the `CountCXPass` class should adhere to the base pass interface by accepting only the `dag` parameter. The extra `options` parameter is not part of the expected interface and causes a bug. By removing the `options` parameter, the method signature aligns with the required contract, ensuring that the pass can be correctly integrated into the transpiler pipeline without breaking the pass interface.",
+  "edits": [
+    {
+      "file": "case_syn_03/buggy.py",
+      "start": 21,
+      "end": 21,
+      "replacement": "    def run(self, dag):\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      50
+    ]
+  ],
+  "lines_f1": 0.18181818181818182,
+  "lines_p": 1.0,
+  "lines_r": 0.1,
+  "num_edits": 1,
+  "lines_touched": 1,
+  "delta_abs_lines": 0,
+  "attempts": 1,
+  "wall_time_s": 35.76527786254883,
+  "guard_notes": [
+    "pure-LLM: no retrieval, no guardrails, single context span 1-50, no refinement"
+  ],
+  "error": null
+}

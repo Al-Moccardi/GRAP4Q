@@ -1,0 +1,33 @@
+{
+  "case_id": "case_syn_05",
+  "variant": "purellm",
+  "family": "syn_algorithmic",
+  "patched_src": "\"\"\"Inverse QFT on a 3-qubit register.\n\nApplies the inverse QFT circuit to a register prepared in the |001>\nbasis state. Includes identity wait gates between phases.\n\"\"\"\nimport numpy as np\nfrom qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister\nfrom qiskit import Aer, execute\n\n\ndef build_iqft() -> QuantumCircuit:\n    n = 3\n    qr = QuantumRegister(n, name=\"q\")\n    cr = ClassicalRegister(n, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n\n    # Prepare |001>.\n    qc.x(qr[0])\n    qc.iden(qr[1])\n    qc.iden(qr[2])\n\n    # Reverse qubit order at the input.\n    for k in range(n // 2):\n        qc.swap(qr[k], qr[n - 1 - k])\n\n    # Inverse QFT body. The conditional phases should have NEGATIVE\n    # angles for the inverse direction.\n    for j in reversed(range(n)):\n        qc.h(qr[j])\n        for m in range(j):\n            # BUG: positive sign for inverse QFT is wrong; should be\n            # negative.\n            qc.cp(np.pi / 2 ** (j - m), qr[m], qr[j])\n            qc.cp(-np.pi / 2 ** (j - m), qr[m], qr[j])\n    qc.measure(qr, cr)\n    return qc\n\n\ndef run_iqft():\n    qc = build_iqft()\n    backend = Aer.get_backend(\"local_qasm_simulator\")\n    job = execute(qc, backend=backend, shots=2048)\n    return job.result().get_data(qc)\n\n\nif __name__ == \"__main__\":\n    print(run_iqft())",
+  "rationale": "The bug in the code is due to the incorrect sign of the phase angle in the conditional phase gate (cp) for the inverse QFT. The angle should be negative, not positive, as indicated in the comment. This change corrects the implementation to properly perform the inverse QFT.",
+  "edits": [
+    {
+      "file": "case_syn_05/buggy.py",
+      "start": 34,
+      "end": 34,
+      "replacement": "            qc.cp(-np.pi / 2 ** (j - m), qr[m], qr[j])\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      47
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 1,
+  "lines_touched": 1,
+  "delta_abs_lines": 0,
+  "attempts": 1,
+  "wall_time_s": 31.74693274497986,
+  "guard_notes": [
+    "pure-LLM: no retrieval, no guardrails, single context span 1-47, no refinement"
+  ],
+  "error": null
+}

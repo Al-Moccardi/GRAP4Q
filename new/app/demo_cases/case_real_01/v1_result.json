@@ -1,0 +1,43 @@
+{
+  "case_id": "case_real_01",
+  "variant": "v1",
+  "family": "real_compatibility",
+  "patched_src": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit.extensions.standard import RXGate, RYGate, RZGate, U3Gate\nfrom qiskit.extensions.simulator import wait\nfrom qiskit import execute, BasicAer, Aer\n\nqubit = QuantumRegister(1, 'qubit')\ncircuit = QuantumCircuit(qubit)\n\ncircuit.x(qubit)\ncircuit.wait(1e-6, qubit)\ncircuit.rx(3.1416, qubit)",
+  "rationale": "The provided code has an unexpected indent at line 13. The edits ensure that the indentation is consistent and correct within the allowed line ranges.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 4,
+      "end": 19,
+      "replacement": "\n\nfrom qiskit import execute, BasicAer, Aer\n\nqubit = QuantumRegister(1, 'qubit')\ncircuit = QuantumCircuit(qubit)\n\ncircuit.x(qubit)\ncircuit.wait(1e-6, qubit)\ncircuit.rx(3.1416, qubit)"
+    },
+    {
+      "file": "buggy.py",
+      "start": 1,
+      "end": 5,
+      "replacement": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit.extensions.standard import RXGate, RYGate, RZGate, U3Gate\nfrom qiskit.extensions.simulator import wait"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      4,
+      19
+    ],
+    [
+      1,
+      5
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 2,
+  "lines_touched": 21,
+  "delta_abs_lines": 8,
+  "attempts": 2,
+  "wall_time_s": 120.41969442367554,
+  "guard_notes": [
+    "SyntaxError: unexpected indent at line 13"
+  ],
+  "error": null
+}

@@ -1,0 +1,35 @@
+{
+  "case_id": "case_syn_04",
+  "variant": "v1",
+  "family": "syn_long_localised",
+  "patched_src": "\"\"\"Multi-stage variational protocol for a 4-qubit problem.\n\nThis module assembles a parameterised ansatz across multiple helper\nfunctions, runs it on a simulator, and extracts a sample-mean\nexpectation value. The structure mirrors a small VQE driver script.\n\"\"\"\nimport numpy as np\nfrom qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister\nfrom qiskit import Aer, execute\n\n\nN_QUBITS = 4\n\n\ndef hadamard_layer(qc: QuantumCircuit, qr: QuantumRegister) -> None:\n    \"\"\"Place a Hadamard on every qubit in the register.\"\"\"\n    for k in range(N_QUBITS):\n        qc.h(qr[k])\n\n\ndef rotation_layer(qc: QuantumCircuit, qr: QuantumRegister,\n                   thetas: list) -> None:\n    \"\"\"Apply Y-rotations parameterised by `thetas`.\"\"\"\n    if len(thetas) != N_QUBITS:\n            qc.cx(qr[k], qr[k + 1])\ndef entangle_layer(qc: QuantumCircuit, qr: QuantumRegister) -> None:\n    \"\"\"Linear chain of CNOTs between neighbouring qubits.\n\n    Should target every pair (k, k+1) for k in range(N_QUBITS - 1).\n    The current implementation has a typo on the second iteration.\n    \"\"\"\n    for k in range(N_QUBITS - 1):\n        if k == 1:\n            # BUG: should be qc.cx(qr[k], qr[k + 1]) like every\n            # other iteration. Operand order is swapped here only,\n            # which makes the controlled-target relationship\n            # different on this one bond.\n            qc.cx(qr[k + 1], qr[k])\n        else:\n            qc.cx(qr[k], qr[k + 1])\n\n\ndef wait_layer(qc: QuantumCircuit, qr: QuantumRegister) -> None:\n    \"\"\"Idle every qubit for one cycle using an identity gate.\"\"\"\n    for k in range(N_QUBITS):\n        qc.iden(qr[k])\n\n\ndef measurement_layer(qc: QuantumCircuit, qr: QuantumRegister,\n                      cr: ClassicalRegister) -> None:\n    \"\"\"Measure every qubit into the matching classical bit.\"\"\"\n    for k in range(N_QUBITS):\n        qc.measure(qr[k], cr[k])\n\n\ndef build_protocol(thetas_layer1: list, thetas_layer2: list\n                   ) -> QuantumCircuit:\n    \"\"\"Assemble the full two-layer protocol on N_QUBITS qubits.\"\"\"\n    qr = QuantumRegister(N_QUBITS, name=\"q\")\n    cr = ClassicalRegister(N_QUBITS, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n    hadamard_layer(qc, qr)\n    rotation_layer(qc, qr, thetas_layer1)\n    entangle_layer(qc, qr)\n    wait_layer(qc, qr)\n    rotation_layer(qc, qr, thetas_layer2)\n    entangle_layer(qc, qr)\n    wait_layer(qc, qr)\n    measurement_layer(qc, qr, cr)\n    return qc\n\n\ndef run_protocol(thetas_layer1: list, thetas_layer2: list,\n                 shots: int = 4096):\n    \"\"\"Build and execute the protocol; return the raw counts dict.\"\"\"\n    qc = build_protocol(thetas_layer1, thetas_layer2)\n    backend = Aer.get_backend(\"local_qasm_simulator\")\n    job = execute(qc, backend=backend, shots=shots)\n    result = job.result()\n    return result.get_data(qc)\n\n\nif __name__ == \"__main__\":\n    th1 = list(np.linspace(0, np.pi, N_QUBITS))\n    th2 = list(np.linspace(np.pi / 4, np.pi / 2, N_QUBITS))\n    print(run_protocol(th1, th2))",
+  "rationale": "The code contains a bug in the entangle_layer function where the operands for the CNOT gate are swapped on the second iteration. This causes a different controlled-target relationship on that bond, which is incorrect. The fix is to swap the operands back to their correct order.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 25,
+      "end": 30,
+      "replacement": "            qc.cx(qr[k], qr[k + 1])"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      22,
+      45
+    ],
+    [
+      5,
+      28
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 1,
+  "lines_touched": 6,
+  "delta_abs_lines": 5,
+  "attempts": 1,
+  "wall_time_s": 28.59921407699585,
+  "guard_notes": [],
+  "error": null
+}

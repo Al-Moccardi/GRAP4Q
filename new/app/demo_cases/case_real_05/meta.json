@@ -1,0 +1,13 @@
+{
+  "case_id": "case_real_05",
+  "kind": "real",
+  "source": "Terra-4001-6000/Bug_11",
+  "family": "real_terra_internal",
+  "circuit": "qiskit-terra internal bug; very short snippet exhibiting sub",
+  "summary": "qiskit-terra internal bug; very short snippet exhibiting subtle library-version sensitivity.",
+  "n_lines": 4,
+  "paper_reference_f1": {
+    "grap": 0.0,
+    "purellm": 0.0
+  }
+}

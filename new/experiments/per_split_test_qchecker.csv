@@ -1,0 +1,8 @@
+case,qchecker_findings,qchecker_rules
+Terra-4001-6000/Bug_11,0,
+StackExchange/3,2,"QC04,QC10"
+StackExchange/5,2,QC04
+StackExchange_2/bug_1,0,
+StackExchange/10,0,
+Terra-0-4000/8,3,"QC04,QC05,QC06"
+StackExchange_2/bug_2,0,

@@ -1,0 +1,13 @@
+{
+  "case_id": "case_real_01",
+  "kind": "real",
+  "source": "StackExchange/3",
+  "family": "real_compatibility",
+  "circuit": "Old-Qiskit imports (qiskit.extensions.standard) replaced by ",
+  "summary": "Old-Qiskit imports (qiskit.extensions.standard) replaced by modern Qiskit. Long-tail compatibility bug.",
+  "n_lines": 19,
+  "paper_reference_f1": {
+    "grap": 0.667,
+    "purellm": 0.0
+  }
+}

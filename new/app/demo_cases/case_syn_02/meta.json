@@ -1,0 +1,11 @@
+{
+  "case_id": "case_syn_02",
+  "kind": "synthetic",
+  "source": "synthetic",
+  "n_lines": 40,
+  "family": "syn_register_misuse",
+  "circuit": "Classically-conditioned rotation",
+  "summary": "Uses classical register as control for cry gate. Triggers QuantumRegisterSanityOK guardrail under GRAP-Q. Plus all 4 deprecated patterns.",
+  "n_qubits": 2,
+  "expected_difficulty": "high for Pure-LLM (no guardrail to catch register misuse)."
+}

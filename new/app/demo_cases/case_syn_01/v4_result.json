@@ -1,0 +1,41 @@
+{
+  "case_id": "case_syn_01",
+  "variant": "v4",
+  "family": "syn_logic_offbyone",
+  "patched_src": "\"\"\"Linear cluster state on a 4-qubit register.\n\nBuilds a 1D cluster state by Hadamarding all qubits then applying a\nchain of CZ gates between neighbouring qubits. Includes identity\n\"wait\" gates at the end.\n\"\"\"\nfrom qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister\nfrom qiskit import Aer, execute\n\n\ndef build_cluster() -> QuantumCircuit:\n    n = 4\n    qr = QuantumRegister(n, name=\"q\")\n    cr = ClassicalRegister(n, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n\n    for k in range(n):\n        qc.h(qr[k])\n\n    # Off-by-one: should be range(n-1) for qubits (k, k+1).\n    for k in range(n - 1):\n        qc.cz(qr[k], qr[k + 1])\n\n    for k in range(n):\n        qc.i(qr[k])\n\n    qc.measure(qr, cr)\n    return qc\n    backend = Aer.get_backend(\"qasm_simulator\")\n    job = execute(qc, backend=backend, shots=1024)\n    return job.result().get_counts(qc)\n\n\nif __name__ == \"__main__\":\n    print(run_cluster())",
+  "rationale": "The code had an off-by-one error in the CZ gate loop and used a deprecated identity gate (iden) which has been renamed to i. These changes correct the logic and update the API usage.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 12,
+      "end": 30,
+      "replacement": "    n = 4\n    qr = QuantumRegister(n, name=\"q\")\n    cr = ClassicalRegister(n, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n\n    for k in range(n):\n        qc.h(qr[k])\n\n    # Off-by-one: should be range(n-1) for qubits (k, k+1).\n    for k in range(n - 1):\n        qc.cz(qr[k], qr[k + 1])\n\n    for k in range(n):\n        qc.i(qr[k])\n\n    qc.measure(qr, cr)\n    return qc\n"
+    },
+    {
+      "file": "buggy.py",
+      "start": 24,
+      "end": 30,
+      "replacement": "    for k in range(n):\n        qc.i(qr[k])\n\n    qc.measure(qr, cr)\n    return qc\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      12,
+      30
+    ],
+    [
+      24,
+      30
+    ]
+  ],
+  "lines_f1": 0.3333333333333333,
+  "lines_p": 0.3333333333333333,
+  "lines_r": 0.3333333333333333,
+  "num_edits": 2,
+  "lines_touched": 26,
+  "delta_abs_lines": 4,
+  "attempts": 1,
+  "wall_time_s": 71.81493020057678,
+  "guard_notes": [],
+  "error": null
+}

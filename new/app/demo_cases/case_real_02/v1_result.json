@@ -1,0 +1,28 @@
+{
+  "case_id": "case_real_02",
+  "variant": "v1",
+  "family": "real_workflow",
+  "patched_src": "from qiskit import *\ncircuit = QuantumCircuit(2)\ncircuit.h(0)\ncircuit.cx(0, 1)\nresult = execute(circuit, backend, shots=1000).result()\ncounts  = result.get_counts(circuit)\nprint(counts)",
+  "rationale": "The provided code snippet is already correct and does not require any changes within the allowed line ranges.",
+  "edits": [],
+  "allowed_ranges": [
+    [
+      1,
+      7
+    ],
+    [
+      1,
+      7
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 0,
+  "lines_touched": 0,
+  "delta_abs_lines": 0,
+  "attempts": 1,
+  "wall_time_s": 14.008375406265259,
+  "guard_notes": [],
+  "error": null
+}

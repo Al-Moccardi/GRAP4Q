@@ -1,0 +1,13 @@
+{
+  "case_id": "case_real_03",
+  "kind": "real",
+  "source": "StackExchange/10",
+  "family": "real_logic",
+  "circuit": "Qubit-ordering bug in entanglement: h(1)/cx(1,2) where h(0)/",
+  "summary": "Qubit-ordering bug in entanglement: h(1)/cx(1,2) where h(0)/cx(0,1) is intended. Both methods fail in the paper.",
+  "n_lines": 30,
+  "paper_reference_f1": {
+    "grap": 0.0,
+    "purellm": 0.0
+  }
+}

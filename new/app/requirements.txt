@@ -1,0 +1,23 @@
+# Core scientific stack
+numpy>=1.26,<3
+pandas>=2.0,<3
+scipy>=1.11,<2
+matplotlib>=3.7,<4
+
+# Retrieval / reranking (cross-encoder is optional — degrades gracefully)
+sentence-transformers>=2.7,<4
+scikit-learn>=1.3,<2
+
+# LLM client
+requests>=2.31,<3
+
+# Progress + dataset tooling
+tqdm>=4.66,<5
+
+# Quantum libraries (needed to exercise buggy/fixed cases if you want to
+# re-run them against a live Aer simulator — not required for patching)
+qiskit>=1.0
+qiskit-aer>=0.13
+
+# Testing (optional)
+pytest>=8.0,<9

@@ -1,0 +1,35 @@
+{
+  "case_id": "case_syn_05",
+  "variant": "v4",
+  "family": "syn_algorithmic",
+  "patched_src": "\"\"\"Inverse QFT on a 3-qubit register.\n\nApplies the inverse QFT circuit to a register prepared in the |001>\nbasis state. Includes identity wait gates between phases.\n\"\"\"\nimport numpy as np\nfrom qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister\nfrom qiskit import Aer, execute\n\n\ndef build_iqft() -> QuantumCircuit:\n    n = 3\n    qr = QuantumRegister(n, name=\"q\")\n    cr = ClassicalRegister(n, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n\n    # Prepare |001>.\n    qc.x(qr[0])\n    qc.iden(qr[1])\n    qc.iden(qr[2])\n\n    # Reverse qubit order at the input.\n    for k in range(n // 2):\n        qc.swap(qr[k], qr[n - 1 - k])\n\n    # Inverse QFT body. The conditional phases should have NEGATIVE\n    # angles for the inverse direction.\n    for j in reversed(range(n)):\n        qc.h(qr[j])\n        for m in range(j):\n            # Corrected: negative sign for inverse QFT.\n            qc.cp(-np.pi / 2 ** (j - m), qr[m], qr[j])\n\n    qc.measure(qr, cr)\n    return qc\ndef run_iqft():\n    qc = build_iqft()\n    backend = Aer.get_backend(\"local_qasm_simulator\")\n    job = execute(qc, backend=backend, shots=2048)\n    return job.result().get_data(qc)\n\n\nif __name__ == \"__main__\":\n    print(run_iqft())",
+  "rationale": "The code contains a bug in the inverse QFT implementation where the conditional phases have positive angles instead of negative ones. This has been corrected by changing the sign of the angle in the `qc.cp` gate.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 28,
+      "end": 38,
+      "replacement": "    for j in reversed(range(n)):\n        qc.h(qr[j])\n        for m in range(j):\n            # Corrected: negative sign for inverse QFT.\n            qc.cp(-np.pi / 2 ** (j - m), qr[m], qr[j])\n\n    qc.measure(qr, cr)\n    return qc\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      12,
+      27
+    ],
+    [
+      28,
+      38
+    ]
+  ],
+  "lines_f1": 0.3157894736842105,
+  "lines_p": 0.6,
+  "lines_r": 0.21428571428571427,
+  "num_edits": 1,
+  "lines_touched": 11,
+  "delta_abs_lines": 3,
+  "attempts": 1,
+  "wall_time_s": 39.14697790145874,
+  "guard_notes": [],
+  "error": null
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "case_real_05",
+  "variant": "v4",
+  "family": "real_terra_internal",
+  "patched_src": "from qiskit import *\nqc = QuantumCircuit(1)\nqc.ry(0.24, 0)\nprint(qc.decompose())",
+  "rationale": "The original code uses the deprecated u1 gate. Replacing it with the equivalent ry gate to maintain functionality while adhering to current Qiskit standards.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 3,
+      "end": 3,
+      "replacement": "qc.ry(0.24, 0)\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      4
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 1,
+  "lines_touched": 1,
+  "delta_abs_lines": 0,
+  "attempts": 1,
+  "wall_time_s": 19.56196355819702,
+  "guard_notes": [],
+  "error": null
+}

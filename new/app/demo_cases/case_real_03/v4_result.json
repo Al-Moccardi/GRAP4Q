@@ -1,0 +1,41 @@
+{
+  "case_id": "case_real_03",
+  "variant": "v4",
+  "family": "real_logic",
+  "patched_src": "import qiskit as q\nfrom qiskit.visualization import plot_histogram\n\ncircuit = q.QuantumCircuit(3, 2)\n\n# entangle cubit 0 & 1\n\ncircuit.h(0)\n\ncircuit.cx(0, 1)\n\ncircuit.h(0)\n\ncircuit.measure([0,1], [0,1])\n\n\ncircuit.measure([0,1], [0,1])\n\ncircuit.cx(1, 2)\n\ncircuit.cz(0, 2)\njob = q.execute(circuit, backend, shots=1024)\nresult = job.result()\n\ncounts = result.get_counts(circuit)\nplot_histogram(counts)",
+  "rationale": "The original code had an issue with the qubit indices. The entanglement and measurement operations were incorrectly applied to different qubits. I corrected the qubit indices to ensure proper entanglement and measurement.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 1,
+      "end": 13,
+      "replacement": "import qiskit as q\nfrom qiskit.visualization import plot_histogram\n\ncircuit = q.QuantumCircuit(3, 2)\n\n# entangle cubit 0 & 1\n\ncircuit.h(0)\n\ncircuit.cx(0, 1)"
+    },
+    {
+      "file": "buggy.py",
+      "start": 16,
+      "end": 22,
+      "replacement": "\ncircuit.measure([0,1], [0,1])\n\ncircuit.cx(1, 2)\n\ncircuit.cz(0, 2)"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      13
+    ],
+    [
+      16,
+      22
+    ]
+  ],
+  "lines_f1": 0.33333333333333326,
+  "lines_p": 0.3,
+  "lines_r": 0.375,
+  "num_edits": 2,
+  "lines_touched": 20,
+  "delta_abs_lines": 4,
+  "attempts": 1,
+  "wall_time_s": 72.90462946891785,
+  "guard_notes": [],
+  "error": null
+}

@@ -1,0 +1,8 @@
+case,method,lines_p,lines_r,lines_f1,num_edits,rules_applied,gold_size,pred_size
+Terra-4001-6000/Bug_11,RuleAPR,0.0,0.0,0.0,0,[],1,0
+StackExchange/3,RuleAPR,0.0,0.0,0.0,3,"['R1', 'R6']",3,3
+StackExchange/5,RuleAPR,0.0,0.0,0.0,0,[],5,0
+StackExchange_2/bug_1,RuleAPR,1.0,1.0,1.0,1,['R4'],1,1
+StackExchange/10,RuleAPR,1.0,0.125,0.2222222222222222,2,"['R1', 'R7']",8,1
+Terra-0-4000/8,RuleAPR,1.0,0.4,0.5714285714285715,1,"['R2', 'R3']",5,2
+StackExchange_2/bug_2,RuleAPR,0.0,0.0,0.0,0,[],1,0

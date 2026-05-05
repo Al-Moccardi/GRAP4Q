@@ -1,0 +1,37 @@
+{
+  "case_id": "case_real_01",
+  "variant": "v4",
+  "family": "real_compatibility",
+  "patched_src": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit.extensions.standard import RXGate, RYGate, RZGate, U3Gate\nfrom qiskit.extensions.simulator import wait\n\n\nfrom qiskit import execute, BasicAer, Aer\n\nqubit = QuantumRegister(1, 'qubit')\ncircuit = QuantumCircuit(qubit)\n\ncircuit.x(qubit)\ncircuit.wait(1e-6, qubit)\n\n\nbackend = Aer.get_backend('statevector_simulator')\njob = execute(circuit, backend)\nresult = job.result()\noutputstate = result.get_statevector(circuit, decimals=3)\nprint(outputstate)",
+  "rationale": "The error 'SyntaxError: unexpected indent at line 13' indicates that there is an extra indentation level at that line. By adding a newline character at the end of line 12, we correct the indentation issue without altering the code's functionality.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 13,
+      "end": 13,
+      "replacement": "\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      4,
+      19
+    ],
+    [
+      1,
+      5
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 1,
+  "lines_touched": 1,
+  "delta_abs_lines": 0,
+  "attempts": 2,
+  "wall_time_s": 83.81852436065674,
+  "guard_notes": [
+    "SyntaxError: unexpected indent at line 13"
+  ],
+  "error": null
+}

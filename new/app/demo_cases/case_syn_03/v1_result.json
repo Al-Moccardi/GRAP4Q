@@ -1,0 +1,34 @@
+{
+  "case_id": "case_syn_03",
+  "variant": "v1",
+  "family": "syn_pass_interface",
+  "patched_src": "\"\"\"Custom transpiler pass that counts CX gates in a DAG.\n\nImplements a TransformationPass-style class with a `run` method.\nUsed as part of a small custom pass manager to instrument circuits\nbefore execution on the simulator.\n\"\"\"\nfrom qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister\nfrom qiskit import Aer, execute\nfrom qiskit.transpiler.basepasses import TransformationPass\n\n\nclass CountCXPass(TransformationPass):\n    \"\"\"A pass that should preserve the DAG verbatim and stash the CX\n    count on a property attribute. The base TransformationPass\n    contract is `run(self, dag)`.\"\"\"\n\n    def __init__(self):\n        super().__init__()\n        self.cx_count = 0\n\n    # BUG: extra positional argument breaks the pass interface.\n    def run(self, dag, options):\n        self.cx_count = sum(1 for node in dag.op_nodes()\n                            if node.name == \"cx\")\n        return dag\n\n\ndef build_circuit() -> QuantumCircuit:\n    qr = QuantumRegister(3, name=\"q\")\n    cr = ClassicalRegister(3, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n    qc.h(qr[0])\n    qc.cx(qr[0], qr[1])\n    qc.cx(qr[1], qr[2])\n    qc.iden(qr[0])\n    qc.iden(qr[1])\n    qc.iden(qr[2])\n    qc.measure(qr, cr)\n    return qc\n\n\ndef run_demo():\n    qc = build_circuit()\n    backend = Aer.get_backend(\"local_qasm_simulator\")\n    job = execute(qc, backend=backend, shots=1024)\n    return job.result().get_data(qc)\n\n\nif __name__ == \"__main__\":\n    print(run_demo())\n",
+  "rationale": "The original code had an extra positional argument 'options' in the `run` method, which breaks the pass interface. The fix involves removing this argument to adhere to the base TransformationPass contract.",
+  "edits": [],
+  "allowed_ranges": [
+    [
+      1,
+      18
+    ],
+    [
+      12,
+      34
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 0,
+  "lines_touched": 0,
+  "delta_abs_lines": 0,
+  "attempts": 3,
+  "wall_time_s": 132.2382116317749,
+  "guard_notes": [
+    "SyntaxError: unindent does not match any outer indentation level at line 34",
+    "Pass interface changed: {('self', 'dag', 'options')} -> set()",
+    "SyntaxError: unterminated triple-quoted string literal (detected at line 45) at line 18",
+    "Pass interface changed: {('self', 'dag', 'options')} -> set()",
+    "Pass interface changed: {('self', 'dag', 'options')} -> {('self', 'dag')}"
+  ],
+  "error": null
+}

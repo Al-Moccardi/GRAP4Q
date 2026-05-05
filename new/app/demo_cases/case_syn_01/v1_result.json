@@ -1,0 +1,37 @@
+{
+  "case_id": "case_syn_01",
+  "variant": "v1",
+  "family": "syn_logic_offbyone",
+  "patched_src": "\"\"\"Linear cluster state on a 4-qubit register.\n\nBuilds a 1D cluster state by Hadamarding all qubits then applying a\nchain of CZ gates between neighbouring qubits. Includes identity\n\"wait\" gates at the end.\n\"\"\"\nfrom qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister\nfrom qiskit import Aer, execute\n\n\ndef build_cluster() -> QuantumCircuit:\n    n = 4\n    qr = QuantumRegister(n, name=\"q\")\n    cr = ClassicalRegister(n, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n\n    for k in range(n):\n        qc.h(qr[k])\n\n    # Off-by-one: should be range(n-1) for qubits (k, k+1).\n    for k in range(n):\n        qc.cz(qr[k], qr[k + 1])\n\n    for k in range(n):\n        qc.iden(qr[k])\n    return qc\n\n\ndef run_cluster():\n    qc = build_cluster()\n    backend = Aer.get_backend(\"qasm_simulator\")\n    job = execute(qc, backend=backend, shots=1024)\n    return job.result().get_counts(qc)\n\n\nif __name__ == \"__main__\":\n    print(run_cluster())",
+  "rationale": "The error indicates that the 'for' loop on line 24 is missing an indented block. By adding the indentation to the 'qc.iden(qr[k])' line, we correct the syntax error while preserving the intended logic of the code.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 25,
+      "end": 27,
+      "replacement": "        qc.iden(qr[k])\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      12,
+      30
+    ],
+    [
+      24,
+      30
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 1,
+  "lines_touched": 3,
+  "delta_abs_lines": 2,
+  "attempts": 2,
+  "wall_time_s": 61.68376016616821,
+  "guard_notes": [
+    "SyntaxError: expected an indented block after 'for' statement on line 24 at line 25"
+  ],
+  "error": null
+}

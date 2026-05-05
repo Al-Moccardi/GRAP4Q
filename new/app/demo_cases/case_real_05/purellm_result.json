@@ -1,0 +1,33 @@
+{
+  "case_id": "case_real_05",
+  "variant": "purellm",
+  "family": "real_terra_internal",
+  "patched_src": "from qiskit import *\nqc = QuantumCircuit(1)\nqc.u(0.24, 0, 0)\nprint(qc.decompose())",
+  "rationale": "The u1 gate in Qiskit has been deprecated and replaced by the u3 gate with specific angles for u1 (u3(theta, 0, 0)). This change ensures compatibility with the latest Qiskit version while preserving the intended quantum operation.",
+  "edits": [
+    {
+      "file": "case_real_05/buggy.py",
+      "start": 3,
+      "end": 3,
+      "replacement": "qc.u(0.24, 0, 0)\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      4
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 1,
+  "lines_touched": 1,
+  "delta_abs_lines": 0,
+  "attempts": 1,
+  "wall_time_s": 30.46735906600952,
+  "guard_notes": [
+    "pure-LLM: no retrieval, no guardrails, single context span 1-4, no refinement"
+  ],
+  "error": null
+}

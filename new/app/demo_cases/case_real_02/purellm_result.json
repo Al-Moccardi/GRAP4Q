@@ -1,0 +1,33 @@
+{
+  "case_id": "case_real_02",
+  "variant": "purellm",
+  "family": "real_workflow",
+  "patched_src": "from qiskit import QuantumCircuit, execute\n\ndef run(self, dag):\n    circuit = QuantumCircuit(2)\n    circuit.h(0)\n    circuit.cx(0, 1)\n    result = execute(circuit, backend, shots=1000).result()\n    counts = result.get_counts(circuit)\n    print(counts)",
+  "rationale": "The provided code snippet is integrated into a method `run` that takes `self` and `dag` as parameters. The original code is wrapped within this method to adhere to the constraints of not altering the pass interface and preserving the qubit order and register semantics.",
+  "edits": [
+    {
+      "file": "case_real_02/buggy.py",
+      "start": 1,
+      "end": 7,
+      "replacement": "from qiskit import QuantumCircuit, execute\n\ndef run(self, dag):\n    circuit = QuantumCircuit(2)\n    circuit.h(0)\n    circuit.cx(0, 1)\n    result = execute(circuit, backend, shots=1000).result()\n    counts = result.get_counts(circuit)\n    print(counts)"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      7
+    ]
+  ],
+  "lines_f1": 0.4444444444444445,
+  "lines_p": 0.2857142857142857,
+  "lines_r": 1.0,
+  "num_edits": 1,
+  "lines_touched": 7,
+  "delta_abs_lines": 2,
+  "attempts": 1,
+  "wall_time_s": 61.09795808792114,
+  "guard_notes": [
+    "pure-LLM: no retrieval, no guardrails, single context span 1-7, no refinement"
+  ],
+  "error": null
+}

@@ -1,0 +1,35 @@
+{
+  "case_id": "case_real_02",
+  "variant": "v4",
+  "family": "real_workflow",
+  "patched_src": "from qiskit import *\ncircuit = QuantumCircuit(2)\ncircuit.h(0)\ncircuit.cx(0, 1)\nresult = execute(circuit, backend, shots=1000).result()\ncounts = result.get_counts()\nprint(counts)",
+  "rationale": "The original code has a minor issue where the `get_counts` method is called with the circuit as an argument, which is not necessary. The correct usage is to call `get_counts` without any arguments if the result object is already associated with the circuit.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 5,
+      "end": 7,
+      "replacement": "result = execute(circuit, backend, shots=1000).result()\ncounts = result.get_counts()\nprint(counts)"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      7
+    ],
+    [
+      1,
+      7
+    ]
+  ],
+  "lines_f1": 0.6666666666666666,
+  "lines_p": 1.0,
+  "lines_r": 0.5,
+  "num_edits": 1,
+  "lines_touched": 3,
+  "delta_abs_lines": 0,
+  "attempts": 1,
+  "wall_time_s": 41.03317308425903,
+  "guard_notes": [],
+  "error": null
+}

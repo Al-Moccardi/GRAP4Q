@@ -1,0 +1,22 @@
+{
+  "n": 12,
+  "mean_grap": 0.24501424501424504,
+  "mean_llm": 0.17222222222222225,
+  "mean_diff": 0.07279202279202278,
+  "bootstrap_ci": [
+    0.018162393162393157,
+    0.14039351851851842
+  ],
+  "wilcoxon_two_sided_p": 0.0625,
+  "wilcoxon_one_sided_greater_p": 0.03125,
+  "paired_t_two_sided_p": 0.044719895734448054,
+  "paired_t_one_sided_greater_p": 0.022359947867224027,
+  "cliffs_delta": 0.1111111111111111,
+  "cliffs_delta_magnitude": "negligible",
+  "sign_test": {
+    "wins": 5,
+    "losses": 0,
+    "ties": 7,
+    "p_value": 0.0625
+  }
+}

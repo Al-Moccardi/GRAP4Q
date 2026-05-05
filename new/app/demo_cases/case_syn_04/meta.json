@@ -1,0 +1,11 @@
+{
+  "case_id": "case_syn_04",
+  "kind": "synthetic",
+  "source": "synthetic",
+  "n_lines": 91,
+  "family": "syn_long_localised",
+  "circuit": "Two-layer 4-qubit variational protocol",
+  "summary": "Long file (~100 lines). Localised CNOT operand-flip in entangle_layer (only on iteration k==1). Plus all 4 deprecated patterns. Tests defect localisation.",
+  "n_qubits": 4,
+  "expected_difficulty": "high for Pure-LLM (long file forces full rewrite, which dilutes the score against the gold's small edit footprint)."
+}

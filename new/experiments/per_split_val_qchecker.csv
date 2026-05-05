@@ -1,0 +1,4 @@
+case,qchecker_findings,qchecker_rules
+StackExchange/7,3,"QC01,QC03,QC04"
+StackExchange/8,3,"QC02,QC03,QC04"
+StackExchange/15,3,"QC02,QC04,QC10"

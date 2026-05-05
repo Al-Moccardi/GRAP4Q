@@ -1,0 +1,33 @@
+{
+  "case_id": "case_real_01",
+  "variant": "purellm",
+  "family": "real_compatibility",
+  "patched_src": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit.extensions.standard import RXGate, RYGate, RZGate, U3Gate\nfrom qiskit.extensions.simulator import wait\n\nfrom qiskit import execute, BasicAer, Aer\n\nqubit = QuantumRegister(1, 'qubit')\ncircuit = QuantumCircuit(qubit)\n\ncircuit.x(qubit)\ncircuit.wait(1e-6, qubit)\ncircuit.rx(3.1416, qubit)\n\nbackend = Aer.get_backend('statevector_simulator')\njob = execute(circuit, backend)\nresult = job.result()\noutputstate = result.get_statevector(circuit, decimals=3)\nprint(outputstate)",
+  "rationale": "The provided code is already correct and does not require any changes. The imports are appropriate for the operations being performed, and the circuit construction and execution are correctly implemented.",
+  "edits": [
+    {
+      "file": "case_real_01/buggy.py",
+      "start": 1,
+      "end": 19,
+      "replacement": "from qiskit import QuantumRegister, ClassicalRegister, QuantumCircuit\nfrom qiskit.extensions.standard import RXGate, RYGate, RZGate, U3Gate\nfrom qiskit.extensions.simulator import wait\n\nfrom qiskit import execute, BasicAer, Aer\n\nqubit = QuantumRegister(1, 'qubit')\ncircuit = QuantumCircuit(qubit)\n\ncircuit.x(qubit)\ncircuit.wait(1e-6, qubit)\ncircuit.rx(3.1416, qubit)\n\nbackend = Aer.get_backend('statevector_simulator')\njob = execute(circuit, backend)\nresult = job.result()\noutputstate = result.get_statevector(circuit, decimals=3)\nprint(outputstate)"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      19
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 1,
+  "lines_touched": 19,
+  "delta_abs_lines": 1,
+  "attempts": 1,
+  "wall_time_s": 80.47594046592712,
+  "guard_notes": [
+    "pure-LLM: no retrieval, no guardrails, single context span 1-19, no refinement"
+  ],
+  "error": null
+}

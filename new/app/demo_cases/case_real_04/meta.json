@@ -1,0 +1,13 @@
+{
+  "case_id": "case_real_04",
+  "kind": "real",
+  "source": "StackExchange_2/bug_1",
+  "family": "real_iden_only",
+  "circuit": "Single-qubit circuit using deprecated qc.iden(). Short and s",
+  "summary": "Single-qubit circuit using deprecated qc.iden(). Short and self-contained.",
+  "n_lines": 5,
+  "paper_reference_f1": {
+    "grap": 1.0,
+    "purellm": 0.667
+  }
+}

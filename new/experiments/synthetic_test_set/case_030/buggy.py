@@ -1,0 +1,10 @@
+from qiskit import QuantumCircuit, execute
+qc = QuantumCircuit(3, 3)
+qc.h(0)
+qc.cx(0, 1)
+qc.cx(1, 2)
+qc.id(0)
+backend = Aer.get_backend('qasm_simulator')
+job = backend.run(qc)
+counts = job.result().get_counts(qc)
+print(counts)

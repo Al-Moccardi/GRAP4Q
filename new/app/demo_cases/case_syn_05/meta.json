@@ -1,0 +1,11 @@
+{
+  "case_id": "case_syn_05",
+  "kind": "synthetic",
+  "source": "synthetic",
+  "n_lines": 47,
+  "family": "syn_algorithmic",
+  "circuit": "Inverse QFT with sign error",
+  "summary": "Inverse QFT body uses positive rotation angles; should be negative for the inverse direction. Algorithmic bug, not syntax. Plus all 4 deprecated patterns.",
+  "n_qubits": 3,
+  "expected_difficulty": "high for Pure-LLM (algorithmic bug requires understanding the QFT direction)."
+}

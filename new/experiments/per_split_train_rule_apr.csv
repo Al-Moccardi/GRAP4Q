@@ -1,0 +1,30 @@
+case,method,lines_p,lines_r,lines_f1,num_edits,rules_applied,gold_size,pred_size
+StackExchange/13,RuleAPR,0.0,0.0,0.0,1,['R6'],3,1
+stackoverflow-6-10/bug_1,RuleAPR,0.0,0.0,0.0,1,['R6'],1,1
+Terra-0-4000/11,RuleAPR,1.0,0.25,0.4,1,['R6'],4,1
+Cirq/5,RuleAPR,0.0,0.0,0.0,0,[],8,0
+Terra-0-4000/22,RuleAPR,0.0,0.0,0.0,1,[],2,1
+StackExchange/18,RuleAPR,0.0,0.0,0.0,0,[],8,0
+Terra-4001-6000/Bug_5,RuleAPR,0.0,0.0,0.0,0,[],2,0
+StackExchange/9,RuleAPR,0.0,0.0,0.0,2,"['R1', 'R7']",1,1
+Terra-0-4000/10,RuleAPR,0.0,0.0,0.0,0,[],2,0
+stackoverflow-6-10/bug_3,RuleAPR,0.0,0.0,0.0,2,"['R1', 'R6']",9,2
+StackExchange/14,RuleAPR,0.0,0.0,0.0,1,['R6'],2,1
+Terra-0-4000/13,RuleAPR,0.0,0.0,0.0,0,[],1,0
+StackExchange/1,RuleAPR,0.0,0.0,0.0,0,[],8,0
+Cirq/7,RuleAPR,0.0,0.0,0.0,0,[],1,0
+Terra-4001-6000/Bug_8,RuleAPR,0.0,0.0,0.0,0,[],1,0
+Terra-0-4000/16,RuleAPR,0.0,0.0,0.0,0,[],3,0
+Aer/bug_10,RuleAPR,0.0,0.0,0.0,1,['R6'],1,1
+StackExchange/4,RuleAPR,0.0,0.0,0.0,2,"['R1', 'R6']",14,2
+Cirq/2,RuleAPR,0.0,0.0,0.0,0,[],1,0
+Cirq/6,RuleAPR,0.0,0.0,0.0,0,[],2,0
+Terra-0-4000/24,RuleAPR,0.0,0.0,0.0,0,[],2,0
+StackExchange/6,RuleAPR,0.0,0.0,0.0,0,[],10,0
+Aer/bug_7,RuleAPR,0.0,0.0,0.0,0,[],1,0
+Cirq/4,RuleAPR,0.0,0.0,0.0,0,[],7,0
+StackExchange/20,RuleAPR,0.0,0.0,0.0,0,[],1,0
+Cirq/3,RuleAPR,0.0,0.0,0.0,0,[],1,0
+stackoverflow-6-10/bug_2,RuleAPR,0.0,0.0,0.0,0,[],1,0
+Aer/bug_1,RuleAPR,0.0,0.0,0.0,0,[],1,0
+StackExchange/17,RuleAPR,1.0,0.04,0.07692307692307693,1,['R6'],25,1

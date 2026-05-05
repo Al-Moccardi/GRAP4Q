@@ -1,0 +1,33 @@
+{
+  "case_id": "case_syn_01",
+  "variant": "purellm",
+  "family": "syn_logic_offbyone",
+  "patched_src": "\"\"\"Linear cluster state on a 4-qubit register.\n\nBuilds a 1D cluster state by Hadamarding all qubits then applying a\nchain of CZ gates between neighbouring qubits. Includes identity\n\"wait\" gates at the end.\n\"\"\"\nfrom qiskit import QuantumCircuit, QuantumRegister, ClassicalRegister\nfrom qiskit import Aer, execute\n\n\ndef build_cluster() -> QuantumCircuit:\n    n = 4\n    qr = QuantumRegister(n, name=\"q\")\n    cr = ClassicalRegister(n, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n\n    for k in range(n):\n        qc.h(qr[k])\n\n    # Off-by-one: should be range(n-1) for qubits (k, k+1).\n    for k in range(n):\n        qc.cz(qr[k], qr[k + 1])\n\nfor k in range(n - 1):\n        qc.cz(qr[k], qr[k + 1])\n\n    qc.measure(qr, cr)\n    return qc\n\n\ndef run_cluster():\n    qc = build_cluster()\n    backend = Aer.get_backend(\"qasm_simulator\")\n    job = execute(qc, backend=backend, shots=1024)\n    return job.result().get_counts(qc)\n\n\nif __name__ == \"__main__\":\n    print(run_cluster())",
+  "rationale": "The original code has an off-by-one error in the loop that applies CZ gates between neighboring qubits. The loop should iterate only up to n-1 to avoid index out of range error when accessing qr[k+1]. This change corrects the loop range while preserving the intended quantum circuit construction.",
+  "edits": [
+    {
+      "file": "case_syn_01/buggy.py",
+      "start": 24,
+      "end": 25,
+      "replacement": "for k in range(n - 1):\n        qc.cz(qr[k], qr[k + 1])"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      39
+    ]
+  ],
+  "lines_f1": 0.25,
+  "lines_p": 0.5,
+  "lines_r": 0.16666666666666666,
+  "num_edits": 1,
+  "lines_touched": 2,
+  "delta_abs_lines": 0,
+  "attempts": 1,
+  "wall_time_s": 34.006885290145874,
+  "guard_notes": [
+    "pure-LLM: no retrieval, no guardrails, single context span 1-39, no refinement"
+  ],
+  "error": null
+}

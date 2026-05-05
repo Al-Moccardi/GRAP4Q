@@ -1,0 +1,13 @@
+{
+  "case_id": "case_real_02",
+  "kind": "real",
+  "source": "StackExchange/7",
+  "family": "real_workflow",
+  "circuit": "Missing measurement and missing backend; both methods partia",
+  "summary": "Missing measurement and missing backend; both methods partially succeed.",
+  "n_lines": 7,
+  "paper_reference_f1": {
+    "grap": 0.5,
+    "purellm": 0.444
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "case_id": "case_real_05",
+  "variant": "v1",
+  "family": "real_terra_internal",
+  "patched_src": "from qiskit import *\nqc = QuantumCircuit(1)\nqc.u1(0.24, 0)\nqc.measure_all()\nprint(qc.decompose())",
+  "rationale": "The original code decomposes the quantum circuit but does not measure any qubits. To ensure the circuit can be executed and observed, a measurement operation is added at the end of the circuit.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 3,
+      "end": 3,
+      "replacement": "qc.u1(0.24, 0)\nqc.measure_all()"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      4
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 1,
+  "lines_touched": 1,
+  "delta_abs_lines": 1,
+  "attempts": 1,
+  "wall_time_s": 33.93540859222412,
+  "guard_notes": [],
+  "error": null
+}

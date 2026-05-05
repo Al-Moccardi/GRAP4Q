@@ -1,0 +1,35 @@
+{
+  "case_id": "case_syn_02",
+  "variant": "v4",
+  "family": "syn_register_misuse",
+  "patched_src": "\"\"\"Conditioned single-qubit rotation using a measurement outcome.\n\nMeasures qubit 0 into a classical register, then applies a controlled\nrotation conditional on the classical outcome. The implementation\nincorrectly uses the classical register as a control wire for the\nRY gate, instead of using c_if for classical conditioning.\n\"\"\"\nfrom qiskit import (QuantumCircuit, QuantumRegister, ClassicalRegister,\n                    Aer, execute)\nimport numpy as np\n\n\ndef build_conditioned():\n    qr = QuantumRegister(2, name=\"q\")\n    cr = ClassicalRegister(1, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n\n    qc.h(qr[0])\n    qc.measure(qr[0], cr[0])\n\n    # Use a conditional gate to apply ry(pi/2) only if the measurement was 1.\n    qc.ry(np.pi / 2, qr[1]).c_if(cr, 1)\n\n    qc.iden(qr[1])\n    qc.measure(qr[1], cr[0])\n    return qc\ndef run_conditioned():\n    qc = build_conditioned()\n    backend = Aer.get_backend(\"local_qasm_simulator\")\n    job = execute(qc, backend=backend, shots=512)\n    result = job.result()\n    return result.get_data(qc)\n\n\nif __name__ == \"__main__\":\n    print(run_conditioned())",
+  "rationale": "The original code incorrectly uses a classical register as a control qubit for the cry gate. This is not allowed. The correct approach is to use a conditional gate that applies the ry(pi/2) operation only if the measurement result in the classical register is 1.",
+  "edits": [
+    {
+      "file": "buggy.py",
+      "start": 13,
+      "end": 30,
+      "replacement": "def build_conditioned():\n    qr = QuantumRegister(2, name=\"q\")\n    cr = ClassicalRegister(1, name=\"c\")\n    qc = QuantumCircuit(qr, cr)\n\n    qc.h(qr[0])\n    qc.measure(qr[0], cr[0])\n\n    # Use a conditional gate to apply ry(pi/2) only if the measurement was 1.\n    qc.ry(np.pi / 2, qr[1]).c_if(cr, 1)\n\n    qc.iden(qr[1])\n    qc.measure(qr[1], cr[0])\n    return qc\n"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      13,
+      30
+    ],
+    [
+      24,
+      30
+    ]
+  ],
+  "lines_f1": 0.5333333333333333,
+  "lines_p": 0.6666666666666666,
+  "lines_r": 0.4444444444444444,
+  "num_edits": 1,
+  "lines_touched": 18,
+  "delta_abs_lines": 4,
+  "attempts": 1,
+  "wall_time_s": 58.051106452941895,
+  "guard_notes": [],
+  "error": null
+}

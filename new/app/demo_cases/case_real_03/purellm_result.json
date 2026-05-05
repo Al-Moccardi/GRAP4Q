@@ -1,0 +1,33 @@
+{
+  "case_id": "case_real_03",
+  "variant": "purellm",
+  "family": "real_logic",
+  "patched_src": "import qiskit as q\nfrom qiskit.visualization import plot_histogram\n\ncircuit = q.QuantumCircuit(3, 3)\n\n# entangle cubit 1 & 2\n\ncircuit.h(1)\n\ncircuit.cx(1, 2)\n\n# apply CNOT to qubit we want to send\ncircuit.cx(0, 1)\n\ncircuit.h(0)\n\ncircuit.measure([0,1], [0,1])\n\ncircuit.cx(1, 2)\n\ncircuit.cz(0, 2)\n\nprint(circuit)\n\nbackend = q.Aer.get_backend('qasm_simulator')\njob = q.execute(circuit, backend, shots=1024)\nresult = job.result()\n\ncounts = result.get_counts(circuit)\nplot_histogram(counts)",
+  "rationale": "The provided code is already correct and does not require any changes. The quantum circuit is properly defined, and the operations are correctly applied to the qubits. The measurement and execution steps are also correctly implemented.",
+  "edits": [
+    {
+      "file": "case_real_03/buggy.py",
+      "start": 1,
+      "end": 30,
+      "replacement": "import qiskit as q\nfrom qiskit.visualization import plot_histogram\n\ncircuit = q.QuantumCircuit(3, 3)\n\n# entangle cubit 1 & 2\n\ncircuit.h(1)\n\ncircuit.cx(1, 2)\n\n# apply CNOT to qubit we want to send\ncircuit.cx(0, 1)\n\ncircuit.h(0)\n\ncircuit.measure([0,1], [0,1])\n\ncircuit.cx(1, 2)\n\ncircuit.cz(0, 2)\n\nprint(circuit)\n\nbackend = q.Aer.get_backend('qasm_simulator')\njob = q.execute(circuit, backend, shots=1024)\nresult = job.result()\n\ncounts = result.get_counts(circuit)\nplot_histogram(counts)"
+    }
+  ],
+  "allowed_ranges": [
+    [
+      1,
+      30
+    ]
+  ],
+  "lines_f1": 0.0,
+  "lines_p": 0.0,
+  "lines_r": 0.0,
+  "num_edits": 1,
+  "lines_touched": 30,
+  "delta_abs_lines": 0,
+  "attempts": 1,
+  "wall_time_s": 88.62776589393616,
+  "guard_notes": [
+    "pure-LLM: no retrieval, no guardrails, single context span 1-30, no refinement"
+  ],
+  "error": null
+}

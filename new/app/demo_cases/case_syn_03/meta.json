@@ -1,0 +1,11 @@
+{
+  "case_id": "case_syn_03",
+  "kind": "synthetic",
+  "source": "synthetic",
+  "n_lines": 50,
+  "family": "syn_pass_interface",
+  "circuit": "Custom pass + 3-qubit GHZ-like demo",
+  "summary": "Custom TransformationPass.run() has an extra argument (breaks interface contract). Triggers PassInterfaceOK guardrail. Plus all 4 deprecated patterns.",
+  "n_qubits": 3,
+  "expected_difficulty": "high for Pure-LLM (no PassInterface check; rewrites tend to introduce other drift)."
+}
