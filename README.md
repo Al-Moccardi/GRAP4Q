@@ -2,7 +2,7 @@
 
 # GRAP4Q
 
-### Guardrail Retrieval and Patching for Quantum Code
+### Guided Retrieval and Patching for Quantum Code
 
 **An LLM-based framework for guardrail-constrained patching of quantum Python programs**
 
@@ -15,11 +15,11 @@
 
 </div>
 
-<br/>
 > **Note.** The `legacy/` and `new/` codebases are functionally identical; `new/` is a modularised, more readable refactoring of `legacy/` and produces the same experimental results.
 
 > **Try the live demo:** [grapq.idealunina.com](https://grapq.idealunina.com/) — interactive Streamlit application demonstrating the full GRAP4Q pipeline.
 
+<br/>
 
 ## Overview
 
@@ -127,29 +127,47 @@ A six-variant prompt-sensitivity ablation (Section 8) further demonstrates that 
 
 ```
 GRAP4Q/
-├── paper/                      Manuscript and supplementary material
+├── paper/                        Manuscript, figures, and supplementary material
 │
-├── src/
-│   ├── retrieval/              Quantum-aware BM25 + cross-encoder
-│   │   ├── chunker.py          AST and sliding-window chunking
-│   │   ├── ranker.py           Cross-encoder (ms-marco-MiniLM-L-6-v2)
-│   │   └── selector.py         Coverage-balanced K=2 span selection
+├── legacy/                       Original monolithic implementation used for the paper
+│   ├── experiments.ipynb         End-to-end notebook: retrieval, patching, evaluation
+│   ├── prompts.py                System prompts for the V1–V6 ablation
+│   └── utils/                    Helper functions (Ollama client, metrics, I/O)
+│
+├── new/                          Modularised refactoring of legacy/ — same outputs
+│   ├── retrieval/
+│   │   ├── chunker.py            AST and sliding-window chunking
+│   │   ├── ranker.py             BM25 + cross-encoder (ms-marco-MiniLM-L-6-v2)
+│   │   └── selector.py           Coverage-balanced K=2 span selection
 │   │
-│   ├── patching/               LLM agent and runtime guardrails
-│   │   ├── agent.py            Refinement loop with feedback
-│   │   ├── guardrails.py       CompositeGuard (G1–G4)
-│   │   └── prompts.py          System prompts (V1–V6)
+│   ├── patching/
+│   │   ├── agent.py              Refinement loop with structured feedback
+│   │   ├── guardrails.py         CompositeGuard (G1–G4)
+│   │   └── prompts.py            Prompt schema and V1–V6 variants
 │   │
-│   └── evaluation/             Lines-F1, drift, admissibility metrics
+│   ├── evaluation/               Lines-F1, drift, identifier Jaccard, admissibility
+│   └── run_grap4q.py             CLI entry point
 │
-├── experiments/                Per-case CSVs and ablation logs
-│   ├── combined_results_val.csv
-│   ├── baselines_comparison_val.csv
-│   └── prompt_ablation/
+├── webapp/                       Streamlit application (live demo source)
+│   ├── app.py                    Three-panel inspection interface
+│   └── assets/                   Static resources used by the UI
 │
-├── webapp/                     Deployed Flask interface
-└── splits_70_25_5.json         Deterministic train/val/test partition
+├── experiments/                  Reproducible experimental artefacts
+│   ├── combined_results_val.csv          Per-case GRAP4Q vs Pure-LLM (n = 12)
+│   ├── baselines_comparison_val.csv      Rule-APR and QChecker baselines
+│   ├── prompt_ablation/                  Per-variant logs (V1–V6)
+│   └── synthetic_stress/                 Out-of-benchmark cases (n = 5)
+│
+├── data/
+│   └── bugs4q/                   Bugs4Q cases (buggy.py / fixed.py pairs)
+│
+├── splits_70_25_5.json           Deterministic train (70%) / val (25%) / test (5%) partition
+├── requirements.txt              Python dependencies
+├── LICENSE                       MIT License
+└── README.md                     This document
 ```
+
+The `legacy/` and `new/` directories are functionally identical and produce the same experimental results. `legacy/` is the original implementation used to compute the numbers reported in the manuscript; `new/` is a modular, more readable refactoring intended for extension and downstream use. Either may be used to reproduce the paper.
 
 <br/>
 
@@ -163,13 +181,16 @@ cd GRAP4Q && pip install -r requirements.txt
 # Pull the language-model backbone (~8 GB)
 ollama pull qwen2.5-coder:14b-instruct
 
-# Patch a single buggy file
-python run_grap4q.py --input examples/buggy_qft.py \
-                     --output patched_qft.py \
-                     --explain
+# Patch a single buggy file (using the modular new/ implementation)
+python new/run_grap4q.py --input examples/buggy_qft.py \
+                         --output patched_qft.py \
+                         --explain
 
 # Reproduce validation-split results from the paper
 python -m experiments.run_validation --split splits_70_25_5.json
+
+# Launch the Streamlit demo locally
+streamlit run webapp/app.py
 ```
 
 A live demonstration of the pipeline, including a three-panel inspection view (buggy source, retrieval and guardrail trace, patched output with admissibility verdict), is available at [grapq.idealunina.com](https://grapq.idealunina.com/).
@@ -199,6 +220,20 @@ A retrieval-only and guardrails-only ablation, isolating the contribution of eac
 
 <br/>
 
+## Citation
+
+```bibtex
+@article{amato2026grap4q,
+  title   = {GRAP4Q: An LLM-based Framework for Quantum Coding Assistance},
+  author  = {Amato, Flora and Cirillo, Egidia and
+             Ghosh, Rajib Chandra and Moccardi, Alberto},
+  journal = {Under review},
+  year    = {2026},
+  note    = {Code: \url{https://github.com/Al-Moccardi/GRAP4Q}}
+}
+```
+
+<br/>
 
 ## Authors
 
@@ -209,6 +244,11 @@ University of Naples Federico II, Italy.
 
 <br/>
 
+## Acknowledgements
+
+This work was partially supported by **PNRR MUR Project PE0000013 — FAIR**.
+
+We thank the authors of the Bugs4Q benchmark for releasing the dataset on which this evaluation is based, and the maintainers of the Qiskit, Ollama, and Sentence-Transformers projects for the underlying tooling.
 
 <br/>
 
