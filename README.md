@@ -15,7 +15,7 @@
 
 </div>
 
-> **Note.** The `legacy/` and `new/` codebases are functionally identical; `new/` is a modularised, more readable refactoring of `legacy/` and produces the same experimental results.
+> **Note.** The `legacy/` and `new/` codebases are functionally identical; `new/` is a modularised, more readable refactoring of `legacy/` and produces the same experimental results with addition required in revision phase.
 
 > **Try the live demo:** [grapq.idealunina.com](https://grapq.idealunina.com/) — interactive Streamlit application demonstrating the full GRAP4Q pipeline.
 
